@@ -1,0 +1,228 @@
+@import "../../css/variables.scss";
+
+// ------ Authentication ------
+
+.authentication {
+    height: 100%;
+
+    &.sign_up {
+        height: auto;
+        padding-block: 60px;
+    }
+
+    &.otp {
+        form {
+            .top {
+                p {
+                    span {
+                        font-weight: 500;
+                        color: $main-color;
+                    }
+                }
+            }
+
+            .second {
+                .otp-container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 25px;
+
+                    .form-control {
+                        max-width: 80px;
+                        text-align: center;
+
+                        font-weight: 500;
+                        font-size: 24px;
+                        color: $main-color;
+
+                        &:focus {
+                            border: 1px solid $main-color;
+                        }
+                    }
+                }
+
+                .resend {
+                    font-family: $dm-sans;
+                    font-weight: 500;
+                    font-size: 20px;
+                    color: $color1;
+
+                    .resend_btn {
+                        background: transparent;
+                        border: 0;
+
+                        font-weight: 700;
+                        color: $main-color;
+                        text-decoration: underline;
+
+                        transition: opacity 0.3s ease;
+
+                        &:hover {
+                            text-decoration: none;
+                        }
+
+                        &:disabled {
+                            opacity: 0.6;
+                            cursor: not-allowed;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+    form {
+        border: $border;
+        border-radius: 20px;
+        box-shadow: 2px 4px 15px 2px #3131310D;
+        padding: 40px;
+
+        .top {
+            h2 {
+                font-family: $dm-sans;
+                font-weight: 600;
+                font-size: 40px;
+                color: $main-color;
+                margin-bottom: 5px;
+            }
+
+            p {
+                font-family: $dm-sans;
+                font-weight: 400;
+                font-size: 20px;
+                color: $color1;
+                margin-bottom: 0;
+            }
+        }
+
+        .second {
+            margin-top: 25px;
+
+            .form-label {
+                font-family: $dm-sans;
+                font-weight: 400;
+                font-size: 18px;
+                color: $color1;
+            }
+
+            .form-control {
+                background-color: #F8F8F8;
+                font-family: $dm-sans;
+                border: $border;
+                border-radius: 6px;
+                font-weight: 500;
+                font-size: 18px;
+                color: $black;
+                padding: 14px 18px;
+            }
+
+            .form-check {
+                .form-check-input {
+                    border: $border;
+                    width: 20px;
+                    height: 20px;
+                    margin-top: 2px;
+
+                    position: relative;
+
+                    &:checked {
+                        background-color: $main-color;
+                        --bs-form-check-bg-image: none;
+
+                        &::before {
+                            display: block;
+                        }
+                    }
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 3px;
+                        left: 3px;
+                        width: 10px;
+                        height: 10px;
+                        background-color: $main-color;
+                        border-radius: 50%;
+                        display: none;
+                    }
+                }
+
+                .form-check-label {
+                    font-family: var(--dm-sans);
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: #696969;
+                    margin-left: 5px;
+                }
+
+                .form-check-input:checked+.form-check-label {
+                    color: var(--blue);
+                }
+            }
+
+            .forgot-password {
+                a {
+                    font-family: $dm-sans;
+                    font-weight: 400;
+                    font-size: 20px;
+                    color: $color1;
+                }
+            }
+
+            .or {
+                margin-block: 25px;
+
+                span {
+                    border: $border;
+                    height: 1px;
+                    flex: 1;
+                }
+
+                p {
+                    font-family: $dm-sans;
+                    font-weight: 400;
+                    font-size: 20px;
+                    color: $color1;
+                    margin-inline: 20px;
+                    white-space: nowrap;
+
+                }
+            }
+
+            .google_btn {
+                background-color: $white;
+                border: 1px solid $color1;
+
+                font-weight: 500;
+                color: $color1;
+            }
+
+        }
+    }
+
+    .account {
+        margin-top: 30px;
+
+        font-family: $dm-sans;
+        font-weight: 400;
+        font-size: 20px;
+        color: $color1;
+
+        a {
+            font-weight: 500;
+            color: $main-color;
+            text-decoration: underline;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// ------ Authentication ------
