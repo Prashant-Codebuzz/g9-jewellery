@@ -38,7 +38,7 @@ const ForgotPassword = () => {
                                         <input
                                             type="email"
                                             name='email'
-                                            placeholder='Email'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />

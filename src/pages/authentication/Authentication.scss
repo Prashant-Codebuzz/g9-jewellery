@@ -73,20 +73,22 @@
     }
 
     .logo {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     form {
         border: $border;
         border-radius: 20px;
-        box-shadow: 2px 4px 15px 2px #3131310D;
+        
+        box-shadow: 2px 4px 15px 2px $form-shadow;
+
         padding: 40px;
 
         .top {
             h2 {
                 font-family: $dm-sans;
                 font-weight: 600;
-                font-size: 40px;
+                font-size: 32px;
                 color: $main-color;
                 margin-bottom: 5px;
             }
@@ -95,7 +97,7 @@
                 font-family: $dm-sans;
                 font-weight: 400;
                 font-size: 20px;
-                color: $color1;
+                color: $black;
                 margin-bottom: 0;
             }
         }
@@ -107,7 +109,7 @@
                 font-family: $dm-sans;
                 font-weight: 400;
                 font-size: 18px;
-                color: $color1;
+                color: $black;
             }
 
             .form-control {
@@ -119,6 +121,10 @@
                 font-size: 18px;
                 color: $black;
                 padding: 14px 18px;
+
+                &::placeholder {
+                    color: $placeholder-color;
+                }
             }
 
             .form-check {
@@ -170,7 +176,7 @@
                     font-family: $dm-sans;
                     font-weight: 400;
                     font-size: 20px;
-                    color: $color1;
+                    color: $black;
                 }
             }
 
@@ -187,7 +193,7 @@
                     font-family: $dm-sans;
                     font-weight: 400;
                     font-size: 20px;
-                    color: $color1;
+                    color: $black;
                     margin-inline: 20px;
                     white-space: nowrap;
 
@@ -196,7 +202,7 @@
 
             .google_btn {
                 background-color: $white;
-                border: 1px solid $color1;
+                border: 1px solid $black;
 
                 font-weight: 500;
                 color: $color1;
@@ -211,7 +217,7 @@
         font-family: $dm-sans;
         font-weight: 400;
         font-size: 20px;
-        color: $color1;
+        color: $black;
 
         a {
             font-weight: 500;

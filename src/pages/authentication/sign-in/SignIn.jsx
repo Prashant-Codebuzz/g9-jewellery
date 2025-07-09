@@ -41,7 +41,7 @@ const SignIn = () => {
                                         <input
                                             type="email"
                                             name='email'
-                                            placeholder='Email'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -54,7 +54,7 @@ const SignIn = () => {
                                         <input
                                             type="text"
                                             name='password'
-                                            placeholder='Password'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />

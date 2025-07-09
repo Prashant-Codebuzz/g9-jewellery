@@ -38,7 +38,7 @@ const SignUp = () => {
                                         <input
                                             type="text"
                                             name='name'
-                                            placeholder='Name'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -51,7 +51,7 @@ const SignUp = () => {
                                         <input
                                             type="email"
                                             name='email'
-                                            placeholder='Email'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -64,7 +64,7 @@ const SignUp = () => {
                                         <input
                                             type="text"
                                             name='phone'
-                                            placeholder='Mobile Number'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -78,7 +78,7 @@ const SignUp = () => {
                                         <input
                                             type="text"
                                             name='password'
-                                            placeholder='Password'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -92,7 +92,7 @@ const SignUp = () => {
                                         <input
                                             type="text"
                                             name='cpassword'
-                                            placeholder='Confirm Password'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />

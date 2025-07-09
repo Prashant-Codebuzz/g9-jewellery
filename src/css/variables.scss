@@ -7,25 +7,33 @@
 
 
 :root {
-    --bg-color: #ffffff;
+    --white1: #ffffff;
     --main-color: #00643C;
+
+    --bg-color: #ffffff;
     --black: #000000;
     --white: #ffffff;
+
     --color1: #313131;
 
-    --input-bg: #f8f8f8;
-    --border-color: #E4E4E4;
+    --border-color: #00000033;
+    --input-bg: #00000005;
+    --placeholder-color: #313131;
+    --form-shadow: #0000000D;
 }
 
+
 [data-theme='dark'] {
-    --bg-color: #121212;
-    --main-color: #009e6f;
-    --black: #ffffff;   
+    --bg-color: #000000;
+    --black: #ffffff;
     --white: #000000;
+
     --color1: #ffffff;
 
-    --input-bg: #1e1e1e;
-    --border-color: #444;
+    --border-color: #FFFFFF33;
+    --input-bg: #FFFFFF05;
+    --placeholder-color: #313131;
+    --form-shadow: #FFFFFF0D;
 }
 
 
@@ -41,6 +49,8 @@ sans-serif;
 
 // $color1: #313131;
 
+$white1: var(--white1);
+
 $bg-color: var(--bg-color);
 $main-color: var(--main-color);
 $black: var(--black);
@@ -52,3 +62,5 @@ $color1: var(--color1);
 /* -- Form-Input -- */
 $border: 1px solid var(--border-color);
 $input-bg: var(--input-bg);
+$placeholder-color: var(--placeholder-color);
+$form-shadow: var(--form-shadow);

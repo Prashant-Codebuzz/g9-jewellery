@@ -38,7 +38,7 @@ const CreatePassword = () => {
                                         <input
                                             type="text"
                                             name='password'
-                                            placeholder='Password'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -51,7 +51,7 @@ const CreatePassword = () => {
                                         <input
                                             type="text"
                                             name='password'
-                                            placeholder='Confirm Password'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />

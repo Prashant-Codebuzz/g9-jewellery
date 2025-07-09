@@ -38,7 +38,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='address'
-                                            placeholder='Address Line 1'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -51,7 +51,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='address'
-                                            placeholder='Address Line 2'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -64,7 +64,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='city'
-                                            placeholder='City'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -77,7 +77,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='city'
-                                            placeholder='State'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -90,7 +90,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='country'
-                                            placeholder='Country'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />
@@ -103,7 +103,7 @@ const AddressDetails = () => {
                                         <input
                                             type="text"
                                             name='code'
-                                            placeholder='Postal Code'
+                                            placeholder=''
                                             className='form-control'
                                             required
                                         />

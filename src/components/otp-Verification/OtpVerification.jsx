@@ -131,13 +131,6 @@ const OtpVerification = () => {
                             <div className="second">
                                 <div className="col-12 mb-3">
                                     <div className='otp-container'>
-                                        {/* <input
-                                            type="text"
-                                            name='password'
-                                            placeholder='Password'
-                                            className='form-control'
-                                            required
-                                        /> */}
 
                                         {otp?.map((digit, index) => (
                                             <input
