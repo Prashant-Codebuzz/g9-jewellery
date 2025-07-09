@@ -8,6 +8,7 @@ import OtpVerification from './components/otp-Verification/OtpVerification';
 import CreatePassword from './pages/authentication/create-password/CreatePassword';
 import SignUp from './pages/authentication/sign-up/SignUp';
 import AddressDetails from './pages/authentication/address-details/AddressDetails';
+import ThemeToggle from './components/theme-toggle/ThemeToggle';
 
 function App() {
 
@@ -29,7 +30,8 @@ function App() {
                 </Route>
             </Routes>
 
-
+            {/* -- ThemeToggle -- */}
+            <ThemeToggle />
 
         </>
     )

@@ -14,7 +14,7 @@ const SignIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
     }
 
 
@@ -24,7 +24,7 @@ const SignIn = () => {
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
                         <div className="logo text-center">
-                            <img src={Logo} alt="Logo" className='img-fluid' />
+                            <img src={Logo} alt="Logo" className='img-fluid' draggable={false} />
                         </div>
 
                         <form onSubmit={handleSubmit}>
@@ -82,7 +82,7 @@ const SignIn = () => {
                                     type='button'
                                     className='main_btn google_btn d-flex align-items-center justify-content-center'
                                 >
-                                    <img src={GoogleIcon} alt="Google" className='img-fluid me-3' />
+                                    <img src={GoogleIcon} alt="Google" className='img-fluid me-3' draggable={false} />
                                     Sign in With Google
                                 </button>
                             </div>

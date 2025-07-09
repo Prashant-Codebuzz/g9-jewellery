@@ -4,19 +4,51 @@
 /* -- DM Sans -- */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
+
+
+:root {
+    --bg-color: #ffffff;
+    --main-color: #00643C;
+    --black: #000000;
+    --white: #ffffff;
+    --color1: #313131;
+
+    --input-bg: #f8f8f8;
+    --border-color: #E4E4E4;
+}
+
+[data-theme='dark'] {
+    --bg-color: #121212;
+    --main-color: #009e6f;
+    --black: #ffffff;   
+    --white: #000000;
+    --color1: #ffffff;
+
+    --input-bg: #1e1e1e;
+    --border-color: #444;
+}
+
+
 /* -- Font-Family -- */
-$dm-sans : 'DM Sans',sans-serif;
+$dm-sans : 'DM Sans',
+sans-serif;
 
 
 /* -- Color -- */
-$main-color: #00643C;
-$black: #000000;
-$white: #ffffff;
+// $main-color: #00643C;
+// $black: #000000;
+// $white: #ffffff;
 
-$color1: #313131;
+// $color1: #313131;
 
+$bg-color: var(--bg-color);
+$main-color: var(--main-color);
+$black: var(--black);
+$white: var(--white);
 
+$color1: var(--color1);
 
 
 /* -- Form-Input -- */
-$border: 1px solid #E4E4E4;
+$border: 1px solid var(--border-color);
+$input-bg: var(--input-bg);

@@ -50,3 +50,38 @@ a {
 
     padding-block: 12px;
 }
+
+
+/* ------ Theme-Css ------ */
+
+body {
+    background-color: $bg-color;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* ------ ThemeToggle ------ */
+.theme-toggle {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    background-color: $bg-color;
+    color: $black;
+    border: 2px solid $black;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 22px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: $black;
+        color: $white;
+    }
+}
