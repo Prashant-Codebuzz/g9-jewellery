@@ -35,7 +35,7 @@ const SignIn = () => {
                             </div>
 
                             <div className="second">
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="email" className='form-label'>Email Address *</label>
                                     <div>
                                         <input
@@ -48,7 +48,7 @@ const SignIn = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-3">
+                                <div className="col-12 mb-2">
                                     <label htmlFor="password" className='form-label'>Password *</label>
                                     <div>
                                         <input

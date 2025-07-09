@@ -32,7 +32,7 @@ const CreatePassword = () => {
                             </div>
 
                             <div className="second">
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="password" className='form-label'>Password *</label>
                                     <div>
                                         <input

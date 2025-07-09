@@ -32,7 +32,7 @@
                         text-align: center;
 
                         font-weight: 500;
-                        font-size: 24px;
+                        font-size: 22px;
                         color: $main-color;
 
                         &:focus {
@@ -44,8 +44,8 @@
                 .resend {
                     font-family: $dm-sans;
                     font-weight: 500;
-                    font-size: 20px;
-                    color: $color1;
+                    font-size: 18px;
+                    color: $black;
 
                     .resend_btn {
                         background: transparent;
@@ -72,6 +72,10 @@
         }
     }
 
+    .row {
+        --bs-gutter-x: 4.5rem;
+    }
+
     .logo {
         margin-bottom: 30px;
     }
@@ -79,16 +83,16 @@
     form {
         border: $border;
         border-radius: 20px;
-        
+
         box-shadow: 2px 4px 15px 2px $form-shadow;
 
-        padding: 40px;
+        padding: 60px;
 
         .top {
             h2 {
                 font-family: $dm-sans;
                 font-weight: 600;
-                font-size: 32px;
+                font-size: 28px;
                 color: $main-color;
                 margin-bottom: 5px;
             }
@@ -96,7 +100,7 @@
             p {
                 font-family: $dm-sans;
                 font-weight: 400;
-                font-size: 20px;
+                font-size: 16px;
                 color: $black;
                 margin-bottom: 0;
             }
@@ -110,6 +114,7 @@
                 font-weight: 400;
                 font-size: 18px;
                 color: $black;
+                margin-bottom: 0.2rem;
             }
 
             .form-control {
@@ -120,7 +125,7 @@
                 font-weight: 500;
                 font-size: 18px;
                 color: $black;
-                padding: 14px 18px;
+                padding: 10px 16px;
 
                 &::placeholder {
                     color: $placeholder-color;
@@ -161,8 +166,8 @@
                 .form-check-label {
                     font-family: var(--dm-sans);
                     font-weight: 600;
-                    font-size: 18px;
-                    color: #696969;
+                    font-size: 16px;
+                    color: $black;
                     margin-left: 5px;
                 }
 
@@ -175,7 +180,7 @@
                 a {
                     font-family: $dm-sans;
                     font-weight: 400;
-                    font-size: 20px;
+                    font-size: 18px;
                     color: $black;
                 }
             }
@@ -205,7 +210,7 @@
                 border: 1px solid $black;
 
                 font-weight: 500;
-                color: $color1;
+                color: $black;
             }
 
         }

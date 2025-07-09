@@ -32,7 +32,7 @@ const SignUp = () => {
                             </div>
 
                             <div className="second">
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="name" className='form-label'>Name *</label>
                                     <div>
                                         <input
@@ -45,7 +45,7 @@ const SignUp = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="email" className='form-label'>Email Address *</label>
                                     <div>
                                         <input
@@ -58,7 +58,7 @@ const SignUp = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="phone" className='form-label'>Mobile Number *</label>
                                     <div>
                                         <input
@@ -72,7 +72,7 @@ const SignUp = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="password" className='form-label'>Password *</label>
                                     <div>
                                         <input

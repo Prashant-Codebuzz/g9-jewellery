@@ -32,7 +32,7 @@ const AddressDetails = () => {
                             </div>
 
                             <div className="second row">
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="address" className='form-label'>Address Line 1 *</label>
                                     <div>
                                         <input
@@ -45,7 +45,7 @@ const AddressDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-4">
+                                <div className="col-12 mb-3">
                                     <label htmlFor="address" className='form-label'>Address Line 2 *</label>
                                     <div>
                                         <input
@@ -58,7 +58,7 @@ const AddressDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-4">
+                                <div className="col-6 mb-3 pe-3">
                                     <label htmlFor="city" className='form-label'>City *</label>
                                     <div>
                                         <input
@@ -71,7 +71,7 @@ const AddressDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-4">
+                                <div className="col-6 mb-3 ps-3">
                                     <label htmlFor="city" className='form-label'>State/Province *</label>
                                     <div>
                                         <input
@@ -84,7 +84,7 @@ const AddressDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-4">
+                                <div className="col-6 mb-3 pe-3">
                                     <label htmlFor="country" className='form-label'>Country *</label>
                                     <div>
                                         <input
@@ -97,7 +97,7 @@ const AddressDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-4">
+                                <div className="col-6 mb-3 ps-3">
                                     <label htmlFor="code" className='form-label'>Postal Code *</label>
                                     <div>
                                         <input

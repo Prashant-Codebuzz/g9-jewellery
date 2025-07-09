@@ -129,7 +129,7 @@ const OtpVerification = () => {
                             </div>
 
                             <div className="second">
-                                <div className="col-12 mb-3">
+                                <div className="col-12 mb-2">
                                     <div className='otp-container'>
 
                                         {otp?.map((digit, index) => (
