@@ -141,7 +141,8 @@ const OtpVerification = () => {
                                                 // id={`otp-${index}`}
                                                 id={`otp-input-${index}`}
                                                 name="otp"
-                                                className="form-control"
+                                                // className="form-control"
+                                                className={`form-control ${digit ? "filled" : ""}`}
                                                 value={digit}
                                                 onChange={(e) => handleChange(e, index)}
                                                 onKeyDown={(e) => handleBackspace(e, index)}

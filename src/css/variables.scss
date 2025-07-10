@@ -18,6 +18,7 @@
     --input-bg: #00000005;
     --placeholder-color: #313131;
     --form-shadow: #0000000D;
+    --otp-color: #00643C;
 }
 
 
@@ -30,12 +31,12 @@
     --input-bg: #FFFFFF05;
     --placeholder-color: #313131;
     --form-shadow: #FFFFFF0D;
+    --otp-color: #ffffff;
 }
 
 
 /* -- Font-Family -- */
-$dm-sans : 'DM Sans',
-sans-serif;
+$dm-sans : 'DM Sans', sans-serif;
 
 
 /* -- Color -- */
@@ -57,4 +58,5 @@ $white: var(--white);
 $border: 1px solid var(--border-color);
 $input-bg: var(--input-bg);
 $placeholder-color: var(--placeholder-color);
-$form-shadow: var(--form-shadow);
+$form-shadow: var(--form-shadow);   
+$otp-color: var(--otp-color);   
