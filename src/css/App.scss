@@ -38,13 +38,13 @@ a {
 
 /* ------ Main-Button ------ */
 .main_btn {
-    background-color: $main-color;
+    background-color: $main-btn-color;
     border: 0;
     border-radius: 6px;
     width: 100%;
 
-    font-family: $dm-sans;
-    font-weight: 600;
+    font-family: $times;
+    font-weight: 700;
     font-size: 18px; //20px
     color: $white1;
 
@@ -67,8 +67,8 @@ body {
     bottom: 50px;
     right: 50px;
     background-color: $bg-color;
-    color: $black;
-    border: 2px solid $black;
+    color: $theme-toggle-border;
+    border: 2px solid $theme-toggle-border;
     border-radius: 50%;
     padding: 10px;
     font-size: 22px;
@@ -82,7 +82,39 @@ body {
     transition: all 0.3s ease;
 
     &:hover {
-        background-color: $black;
-        color: $white;
+        background-color: $theme-toggle-border;
+        color: $theme-toggle-hover;
     }
+}
+
+
+
+
+/* ------ Padding-Inline ------ */
+.pd-x {
+    padding-inline: 200px;
+}
+
+
+/* ------ Status ------ */
+.status {
+    border-radius: 6px;
+    font-family: $times;
+    font-weight: 700;
+    font-size: 16px;
+    color: $white1;
+    padding: 8px 20px;
+
+    &.pending {
+        background-color: $pending;
+    }
+
+    &.delivered {
+        background-color: $delivered;
+    }
+
+    &.cancelled {
+        background-color: $cancelled;
+    }
+
 }

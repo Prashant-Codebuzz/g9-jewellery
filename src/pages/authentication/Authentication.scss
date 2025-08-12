@@ -15,8 +15,9 @@
             .top {
                 p {
                     span {
-                        font-weight: 500;
-                        color: $main-color;
+                        font-weight: 600;
+                        color: $main-btn-color;
+                        text-decoration: underline;
                     }
                 }
             }
@@ -31,12 +32,13 @@
                         max-width: 80px;
                         text-align: center;
 
-                        font-weight: 500;
+                        font-weight: 600;
                         font-size: 22px;
-                        color: $main-color;
+                        color: $main-btn-color;
 
-                        &:focus, &.filled {
-                            border: 1px solid $main-color;
+                        &:focus,
+                        &.filled {
+                            // border: 1px solid $main-btn-color;
                         }
                     }
                 }
@@ -52,7 +54,7 @@
                         border: 0;
 
                         font-weight: 700;
-                        color: $main-color;
+                        color: $main-btn-color;
                         text-decoration: underline;
 
                         transition: opacity 0.3s ease;
@@ -83,22 +85,23 @@
     form {
         border: $border;
         border-radius: 20px;
+        background-color: $form-bg;
 
-        box-shadow: 2px 4px 15px 2px $form-shadow;
+        // box-shadow: 2px 4px 15px 2px $form-shadow;
 
         padding: 60px;
 
         .top {
             h2 {
-                font-family: $dm-sans;
-                font-weight: 600;
-                font-size: 32px; //28px
-                color: $main-color;
+                font-family: $times;
+                font-weight: 700;
+                font-size: 30px; //28px
+                color: $main-btn-color;
                 margin-bottom: 5px;
             }
 
             p {
-                font-family: $dm-sans;
+                font-family: $avenir;
                 font-weight: 400;
                 font-size: 18px; //16px
                 color: $black;
@@ -110,7 +113,7 @@
             margin-top: 25px;
 
             .form-label {
-                font-family: $dm-sans;
+                font-family: $avenir;
                 font-weight: 400;
                 font-size: 18px;
                 color: $black;
@@ -119,7 +122,7 @@
 
             .form-control {
                 background-color: $input-bg;
-                font-family: $dm-sans;
+                font-family: $avenir;
                 border: $border;
                 border-radius: 6px;
                 font-weight: 500;
@@ -143,7 +146,7 @@
                     position: relative;
 
                     &:checked {
-                        border-color: $main-color;
+                        border-color: $main-btn-color;
                         --bs-form-check-bg-image: none;
 
                         &::before {
@@ -158,7 +161,7 @@
                         left: 3px;
                         width: 12px;
                         height: 12px;
-                        background-color: $main-color;
+                        background-color: $main-btn-color;
                         border-radius: 50%;
                         display: none;
                     }
@@ -173,13 +176,13 @@
                 }
 
                 .form-check-input:checked+.form-check-label {
-                    // color: $main-color;
+                    // color: $main-btn-color;
                 }
             }
 
             .forgot-password {
                 a {
-                    font-family: $dm-sans;
+                    font-family: $avenir;
                     font-weight: 400;
                     font-size: 18px;
                     color: $black;
@@ -196,7 +199,7 @@
                 }
 
                 p {
-                    font-family: $dm-sans;
+                    font-family: $avenir;
                     font-weight: 400;
                     font-size: 18px; //20px
                     color: $black;
@@ -207,27 +210,27 @@
             }
 
             .google_btn {
+                font-family: $avenir;
                 background-color: $white;
-                border: 1px solid $black;
+                border: $border;
 
-                font-weight: 500;
+                font-weight: 400;
                 color: $black;
             }
 
         }
     }
 
-    .account {
+    .account_or {
         margin-top: 30px;
 
-        font-family: $dm-sans;
+        font-family: $avenir;
         font-weight: 400;
         font-size: 18px; //20px
         color: $black;
 
         a {
-            font-weight: 500;
-            color: $main-color;
+            color: $black;
             text-decoration: underline;
 
             &:hover {

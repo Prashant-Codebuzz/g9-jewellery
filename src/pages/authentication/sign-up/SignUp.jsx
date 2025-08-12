@@ -1,17 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 // Image
-import Logo from "../../../assets/images/authentication/logo.svg";
+// Light
+import LogoLight from "../../../assets/images/authentication/logo-light.svg";
+import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
+// Dark
+import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
+// import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
+
+import { Axios } from '../../../helper/Axios';
+import { toast } from 'react-toastify';
+
+const initialState = {
+    name: '',
+    email: '',
+    Mobile_number: '',
+    password: '',
+    ConfirmPassword: '',
+}
 
 const SignUp = () => {
 
     const navigate = useNavigate();
 
+    const [formdata, setFormData] = useState(initialState);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        navigate("/otp-Verify", { state: "sign-up" });
+        try {
+            const res = await Axios.post("/user/signUp", formdata, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log(res);
+
+            if (res?.data?.status) {
+                navigate("/otp-Verify", { state: { type: "sign-up", email: formdata.email } });
+                toast.success(res.data.message);
+            } else {
+                toast.error(res.data.message);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -21,7 +64,7 @@ const SignUp = () => {
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
                         <div className="logo text-center">
-                            <img src={Logo} alt="Logo" className='img-fluid' draggable={false} />
+                            <img src={LogoLight} alt="Logo" className='img-fluid' draggable={false} />
                         </div>
 
                         <form onSubmit={handleSubmit}>
@@ -40,6 +83,8 @@ const SignUp = () => {
                                             name='name'
                                             placeholder=''
                                             className='form-control'
+                                            value={formdata.name}
+                                            onChange={handleChange}
                                             required
                                         />
                                     </div>
@@ -53,19 +98,26 @@ const SignUp = () => {
                                             name='email'
                                             placeholder=''
                                             className='form-control'
+                                            value={formdata.email}
+                                            onChange={handleChange}
                                             required
                                         />
                                     </div>
                                 </div>
 
                                 <div className="col-12 mb-3">
-                                    <label htmlFor="phone" className='form-label'>Mobile Number *</label>
+                                    <label htmlFor="Mobile_number" className='form-label'>Mobile Number *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='phone'
+                                            pattern='\d*'
+                                            maxLength={12}
+                                            name='Mobile_number'
                                             placeholder=''
                                             className='form-control'
+                                            value={formdata.Mobile_number}
+                                            onChange={handleChange}
+                                            onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                                             required
                                         />
 
@@ -80,6 +132,8 @@ const SignUp = () => {
                                             name='password'
                                             placeholder=''
                                             className='form-control'
+                                            value={formdata.password}
+                                            onChange={handleChange}
                                             required
                                         />
 
@@ -87,13 +141,15 @@ const SignUp = () => {
                                 </div>
 
                                 <div className="col-12 mb-4">
-                                    <label htmlFor="cpassword" className='form-label'>Confirm Password *</label>
+                                    <label htmlFor="ConfirmPassword" className='form-label'>Confirm Password *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='cpassword'
+                                            name='ConfirmPassword'
                                             placeholder=''
                                             className='form-control'
+                                            value={formdata.ConfirmPassword}
+                                            onChange={handleChange}
                                             required
                                         />
 
@@ -108,7 +164,7 @@ const SignUp = () => {
                             </div>
                         </form>
 
-                        <div className="account text-center">
+                        <div className="account_or text-center">
                             Already have an account? <Link to="/">Sign in</Link>
                         </div>
                     </div>

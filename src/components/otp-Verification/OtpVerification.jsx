@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // Image
-import Logo from "../../assets/images/authentication/logo.svg";
+// Light
+import LogoLight from "../../assets/images/authentication/logo-light.svg";
+import GoogleIcon from "../../assets/images/authentication/google-icon.svg";
+// Dark
+import LogoDark from "../../assets/images/authentication/logo-dark.svg";
+// import GoogleIcon from "../../assets/images/authentication/google-icon.svg";
+
+import { Axios } from '../../helper/Axios';
+import { toast } from 'react-toastify';
 
 const initialOtpState = ["", "", "", "", "", ""];
 
@@ -14,6 +22,7 @@ const initialResendState = {
 const OtpVerification = () => {
 
     const { state } = useLocation();
+    const { type, email } = state || null;
     console.log(state);
 
     const navigate = useNavigate();
@@ -70,12 +79,32 @@ const OtpVerification = () => {
         const enteredOtp = otp?.join('');
         if (enteredOtp.length === 6) {
 
-            if (state === "sign-in") {
-                navigate("/create-password");
+            try {
+                const res = await Axios.post("/user/signUp", formdata, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                console.log(res);
+
+                if (res?.data?.status) {
+                    // navigate("/mobile-otp-Verify", { state: { type: "sign-up", email: formdata.email } });
+                    toast.success(res.data.message);
+
+                    if (state === "sign-in") {
+                        navigate("/create-password");
+                    }
+                    else {
+                        navigate("/address-details");
+                    }
+
+                } else {
+                    toast.error(res.data.message);
+                }
+            } catch (err) {
+                console.error(err);
             }
-            else {
-                navigate("/address-details");
-            }
+
         }
         else {
             alert("Please enter all 6 digits");
@@ -118,14 +147,14 @@ const OtpVerification = () => {
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
                         <div className="logo text-center">
-                            <img src={Logo} alt="Logo" className='img-fluid' draggable={false} />
+                            <img src={LogoLight} alt="Logo" className='img-fluid' draggable={false} />
                         </div>
 
                         <form onSubmit={handleSubmit}>
                             <div className="top">
-                                <h2>OTP Verification</h2>
+                                <h2>Email OTP Verification</h2>
 
-                                <p>Enter OTP that we have send on <span>abc@gmail.com</span></p>
+                                <p>Enter OTP that we have send on <span>{email}</span></p>
                             </div>
 
                             <div className="second">
@@ -163,7 +192,6 @@ const OtpVerification = () => {
                                     >
                                         Resend
                                     </button>
-                                    {/* in 120 sec */}
                                     {resend.disabled ?
                                         <span> in {resend.timeLeft} sec</span>
                                         :

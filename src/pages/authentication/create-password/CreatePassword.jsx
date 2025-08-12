@@ -2,7 +2,12 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 // Image
-import Logo from "../../../assets/images/authentication/logo.svg";
+// Light
+import LogoLight from "../../../assets/images/authentication/logo-light.svg";
+import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
+// Dark
+import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
+// import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 
 const CreatePassword = () => {
 
@@ -21,7 +26,7 @@ const CreatePassword = () => {
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
                         <div className="logo text-center">
-                            <img src={Logo} alt="Logo" className='img-fluid' draggable={false} />
+                            <img src={LogoLight} alt="Logo" className='img-fluid' draggable={false} />
                         </div>
 
                         <form onSubmit={handleSubmit}>

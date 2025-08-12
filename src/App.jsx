@@ -9,6 +9,13 @@ import CreatePassword from './pages/authentication/create-password/CreatePasswor
 import SignUp from './pages/authentication/sign-up/SignUp';
 import AddressDetails from './pages/authentication/address-details/AddressDetails';
 import ThemeToggle from './components/theme-toggle/ThemeToggle';
+import DefaultLayout from './components/layout/default-layout/DefaultLayout';
+import Account from './pages/account/my-account/Account';
+import Orders from './pages/account/my-orders/Orders';
+import Address from './pages/account/address/Address';
+import CreateAddress from './pages/account/address/create/CreateAddress';
+import EditAddress from './pages/account/address/edit/EditAddress';
+import Wishlist from './pages/account/my-wishlist/Wishlist';
 
 function App() {
 
@@ -22,12 +29,24 @@ function App() {
                     <Route path='/' element={<SignIn />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />
                     <Route path='/otp-Verify' element={<OtpVerification />} />
+                    <Route path='/mobile-otp-Verify' />
                     <Route path='/create-password' element={<CreatePassword />} />
 
                     <Route path='/sign-up' element={<SignUp />} />
                     <Route path='/address-details' element={<AddressDetails />} />
-
                 </Route>
+
+                {/* -- Layout -- */}
+                <Route element={<DefaultLayout />}>
+                    {/* Account */}
+                    <Route path='/account' element={<Account />} />
+                    <Route path='/orders' element={<Orders />} />
+                    <Route path='/address' element={<Address />} />
+                    <Route path='/address/create' element={<CreateAddress />} />
+                    <Route path='/address/edit/:id' element={<EditAddress />} />
+                    <Route path='/wishlist' element={<Wishlist />} />
+                </Route>
+
             </Routes>
 
             {/* -- ThemeToggle -- */}
