@@ -7,7 +7,7 @@ import LogoLight from "../../../assets/images/authentication/logo-light.svg";
 import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
-import { reqtoAddressDetail } from '../../../redux-Toolkit/services/authServices';
+import { reqtoAddressDetail } from '../../../redux-Toolkit/services/AuthServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { loaders } from '../../../components/loader/Loader';
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";

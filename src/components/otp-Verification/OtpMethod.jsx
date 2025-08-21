@@ -8,7 +8,7 @@ import LogoLight from "../../assets/images/authentication/logo-light.svg";
 import LogoDark from "../../assets/images/authentication/logo-dark.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { loaders } from '../loader/Loader';
-import { reqtoOtpMethod } from '../../redux-Toolkit/services/authServices';
+import { reqtoOtpMethod } from '../../redux-Toolkit/services/AuthServices';
 
 const initialState = {
     type: '',

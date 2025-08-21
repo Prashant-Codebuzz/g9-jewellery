@@ -12,7 +12,7 @@ import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { reqtoSignUp } from '../../../redux-Toolkit/services/authServices';
+import { reqtoSignUp } from '../../../redux-Toolkit/services/AuthServices';
 import { loaders } from '../../../components/loader/Loader';
 
 const initialState = {

@@ -12,7 +12,7 @@ import LogoDark from "../../assets/images/authentication/logo-dark.svg";
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { loaders } from '../loader/Loader';
-import { reqtoOtpVerification } from '../../redux-Toolkit/services/authServices';
+import { reqtoOtpVerification } from '../../redux-Toolkit/services/AuthServices';
 import { signUpResendOtp } from '../../redux-Toolkit/slices/AuthSlice';
 
 const initialOtpState = ["", "", "", "", "", ""];

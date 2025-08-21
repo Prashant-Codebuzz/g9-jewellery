@@ -18,7 +18,7 @@ import AddressActiveLight from "../../assets/images/account/address-active-light
 import WishlistActiveLight from "../../assets/images/account/wishlist-active-light.svg";
 import SignOut from '../modal/sign-out/SignOut';
 import { useDispatch, useSelector } from 'react-redux';
-import { reqtoSignOut } from '../../redux-Toolkit/services/authServices';
+import { reqtoSignOut } from '../../redux-Toolkit/services/AuthServices';
 
 const AccountSidebar = () => {
 

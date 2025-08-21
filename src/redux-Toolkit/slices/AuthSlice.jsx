@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { reqtoAddressDetail, reqtoChangePassword, reqtoForgetPassword, reqtoOtpMethod, reqtoOtpVerification, reqtoSignIn, reqtoSignOut, reqtoSignUp } from "../services/authServices";
+import { reqtoAddressDetail, reqtoChangePassword, reqtoForgetPassword, reqtoOtpMethod, reqtoOtpVerification, reqtoSignIn, reqtoSignOut, reqtoSignUp } from "../services/AuthServices";
 
 const initialState = {
     loader: false,

@@ -8,7 +8,7 @@ import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { reqtoForgetPassword } from '../../../redux-Toolkit/services/authServices';
+import { reqtoForgetPassword } from '../../../redux-Toolkit/services/AuthServices';
 import { toast } from 'react-toastify';
 import { loaders } from '../../../components/loader/Loader';
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";

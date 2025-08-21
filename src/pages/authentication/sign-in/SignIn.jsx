@@ -17,7 +17,7 @@ import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 import useThemeMode from '../../../hooks/useThemeMode';
 import { useDispatch, useSelector } from 'react-redux';
 import { loaders } from '../../../components/loader/Loader';
-import { reqtoSignIn } from '../../../redux-Toolkit/services/authServices';
+import { reqtoSignIn } from '../../../redux-Toolkit/services/AuthServices';
 import { toast } from 'react-toastify';
 
 const initialState = {
