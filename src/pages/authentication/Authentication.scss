@@ -84,7 +84,7 @@
 
     form {
         border: $border;
-        border-radius: 20px;
+        border-radius: 16px;
         background-color: $form-bg;
 
         // box-shadow: 2px 4px 15px 2px $form-shadow;
@@ -104,6 +104,7 @@
                 font-family: $avenir;
                 font-weight: 400;
                 font-size: 18px; //16px
+                line-height: 26px;
                 color: $black;
                 margin-bottom: 0;
             }
@@ -142,7 +143,7 @@
                     width: 20px;
                     height: 20px;
                     margin-top: 2px;
-
+                    cursor: pointer;
                     position: relative;
 
                     &:checked {
@@ -168,15 +169,16 @@
                 }
 
                 .form-check-label {
-                    font-family: var(--dm-sans);
-                    font-weight: 600;
-                    font-size: 16px;
+                    font-family: $avenir;
+                    font-weight: 400;
+                    font-size: 18px;
                     color: $black;
                     margin-left: 5px;
+                    cursor: pointer;
                 }
 
-                .form-check-input:checked+.form-check-label {
-                    // color: $main-btn-color;
+                .form-check-input:disabled+.form-check-label {
+                    cursor: auto;
                 }
             }
 

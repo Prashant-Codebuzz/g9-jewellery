@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 // Css
 import "./AccountSidebar.scss";
@@ -17,13 +17,30 @@ import OrderActiveLight from "../../assets/images/account/order-active-light.svg
 import AddressActiveLight from "../../assets/images/account/address-active-light.svg";
 import WishlistActiveLight from "../../assets/images/account/wishlist-active-light.svg";
 import SignOut from '../modal/sign-out/SignOut';
+import { useDispatch, useSelector } from 'react-redux';
+import { reqtoSignOut } from '../../redux-Toolkit/services/authServices';
 
 const AccountSidebar = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { loader } = useSelector((state) => state.UserAuth)
 
     const [signOutModalShow, setSignOutModalShow] = useState(false);
 
     const handleClose = () => {
         setSignOutModalShow(false);
+    }
+
+    const handleSignOut = async () => {
+        // const res = await dispatch(reqtoSignOut());
+
+        // if (res.payload?.status) {
+            // setSignOutModalShow(false);
+
+            navigate("/home");
+        // }
     }
 
     return (
@@ -80,7 +97,12 @@ const AccountSidebar = () => {
                 </li>
 
                 <li>
-                    <Link onClick={() => { setSignOutModalShow(true) }}>
+                    <Link
+                        onClick={() => {
+                            setSignOutModalShow(true)
+
+                        }}
+                    >
                         <img src={SignoutLight} alt="" className='img-fluid' draggable={false} />
 
                         Sign-out
@@ -90,7 +112,7 @@ const AccountSidebar = () => {
 
 
             {/* Modal-Primary */}
-            <SignOut show={signOutModalShow} handleClose={handleClose} />
+            <SignOut show={signOutModalShow} handleClose={handleClose} handleSignOut={handleSignOut} loader={loader} />
 
         </div>
     )

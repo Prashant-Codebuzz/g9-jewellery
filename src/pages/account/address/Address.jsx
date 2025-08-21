@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // Css
 
@@ -14,6 +14,9 @@ import AccountSidebar from '../../../components/account-sidebar/AccountSidebar';
 import Delete from '../../../components/modal/delete/Delete';
 import Primary from '../../../components/modal/primary/Primary';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { reqtoDeleteManageAddress, reqtoGetManageAddress, reqtoSetPrimaryManageAddress } from '../../../redux-Toolkit/services/AccountServices';
+import { editManageAddress } from '../../../redux-Toolkit/slices/AccountSlice';
 
 const initialModalState = {
     primary: false,
@@ -22,13 +25,45 @@ const initialModalState = {
 
 const Address = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const userAccount = useSelector((state) => state.UserAccount);
+    const { loader, manageAddressList, manageAddressLoader } = userAccount;
+
     const [modalShow, setModalShow] = useState(initialModalState);
+    const [addressId, setAddressId] = useState(null);
 
     const handleClose = () => {
         setModalShow(initialModalState);
+        setAddressId(null);
     }
+
+    const GetManageAddress = async () => {
+        await dispatch(reqtoGetManageAddress());
+    }
+
+    const handleSetPrimary = async () => {
+        const res = await dispatch(reqtoSetPrimaryManageAddress(addressId));
+
+        if (res.payload?.status) {
+            handleClose();
+            GetManageAddress();
+        }
+    }
+
+    const handleDelete = async () => {
+        const res = await dispatch(reqtoDeleteManageAddress(addressId));
+
+        if (res.payload?.status) {
+            handleClose();
+            GetManageAddress();
+        }
+    }
+
+    useEffect(() => {
+        GetManageAddress();
+    }, []);
 
 
     return (
@@ -144,6 +179,90 @@ const Address = () => {
                                     </p>
                                 </div>
 
+
+                                {/* {
+                                    manageAddressList?.map((i, index) => {
+                                        return (
+                                            <React.Fragment key={i?.id}>
+                                                <div className="address">
+                                                    <div className='d-flex align-items-center justify-content-between'>
+                                                        <div className='type d-flex align-items-center'>
+                                                            <img src={i?.address_type === 'Home' ? HomeLight : i?.address_type === 'Work' ? WorkLight : OtherLight} alt="" className='img-fluid' draggable={false} />
+
+                                                            <span className='mx-3'>
+                                                                {i?.address_type}
+                                                            </span>
+
+                                                            {
+                                                                i?.primary === 1 &&
+                                                                <div className='status delivered'>
+                                                                    Primary
+                                                                </div>
+                                                            }
+                                                        </div>
+
+                                                        <div>
+                                                            <button type='button' className='menu_btn' data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <img src={MenuLight} alt="" className='img-fluid' draggable={false} />
+                                                            </button>
+                                                            <ul className="dropdown-menu dropdown-menu-end">
+                                                                {
+                                                                    i?.primary === 0 &&
+                                                                    <li>
+                                                                        <button
+                                                                            type='button'
+                                                                            className="dropdown-item"
+                                                                            onClick={() => {
+                                                                                setModalShow({ ...modalShow, primary: true })
+                                                                                setAddressId(i?.id)
+                                                                            }}
+                                                                        >
+                                                                            Set As Primary
+                                                                        </button>
+                                                                    </li>
+                                                                }
+
+                                                                <li>
+                                                                    <button
+                                                                        type='button'
+                                                                        className="dropdown-item"
+                                                                        onClick={() => {
+                                                                            navigate(`/address/edit/${i?.id}`)
+                                                                            dispatch(editManageAddress(i))
+                                                                        }}
+                                                                    >
+                                                                        Edit
+                                                                    </button>
+                                                                </li>
+                                                                <li>
+                                                                    <button
+                                                                        type='button'
+                                                                        className="dropdown-item"
+                                                                        onClick={() => {
+                                                                            setModalShow({ ...modalShow, delete: true })
+                                                                            setAddressId(i?.id)
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <p className='mb-0'>
+                                                        {i?.address_line_1} <br />
+                                                        {i?.city}, {i?.state}, {i?.country} - {i?.postal_code}
+                                                    </p>
+                                                </div>
+
+                                                {index !== manageAddressList.length - 1 && <div className="line"></div>}
+                                            </React.Fragment>
+                                        )
+                                    })
+                                } */}
+
                             </div>
 
                             <button type='button' className='main_btn address_btn' onClick={() => navigate("/address/create")}>
@@ -157,9 +276,9 @@ const Address = () => {
 
 
             {/* Modal-Primary */}
-            <Primary show={modalShow.primary} handleClose={handleClose} />
+            <Primary show={modalShow.primary} handleClose={handleClose} handleSetPrimary={handleSetPrimary} loader={manageAddressLoader} />
             {/* Modal-Delete */}
-            <Delete show={modalShow.delete} handleClose={handleClose} />
+            <Delete show={modalShow.delete} handleClose={handleClose} handleDelete={handleDelete} loader={manageAddressLoader} />
 
         </>
     )

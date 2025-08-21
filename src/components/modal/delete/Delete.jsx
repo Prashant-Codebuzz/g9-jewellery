@@ -3,8 +3,9 @@ import { Modal } from 'react-bootstrap';
 
 // Css
 import "./Modal.scss"
+import { loaders } from '../../loader/Loader';
 
-const Delete = ({ show, handleClose }) => {
+const Delete = ({ show, handleClose, handleDelete, loader }) => {
     return (
         <Modal
             show={show}
@@ -25,8 +26,10 @@ const Delete = ({ show, handleClose }) => {
                         NO
                     </button>
 
-                    <button type='button' className='main_btn yes' onClick={handleClose}>
-                        YES
+                    <button type='button' className='main_btn yes' onClick={handleClose} disabled={loader}>
+                        {
+                            loader ? loaders.btn : 'YES'
+                        }
                     </button>
                 </div>
             </Modal.Body>

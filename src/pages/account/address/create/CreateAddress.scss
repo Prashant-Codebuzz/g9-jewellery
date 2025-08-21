@@ -53,7 +53,7 @@
                     width: 20px;
                     height: 20px;
                     margin-top: 2px;
-
+                    cursor: pointer;
                     position: relative;
 
                     &:checked {
@@ -84,6 +84,7 @@
                     font-size: 18px;
                     color: $black;
                     margin-left: 5px;
+                    cursor: pointer;
                 }
             }
         }

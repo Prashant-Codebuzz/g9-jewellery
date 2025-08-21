@@ -10,7 +10,7 @@ html,
 body,
 #root {
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     height: 100%;
 }
 
@@ -35,6 +35,10 @@ a {
     cursor: pointer;
 }
 
+.spinner-border-sm {
+    width: 18px;
+    height: 18px;
+}
 
 /* ------ Main-Button ------ */
 .main_btn {
@@ -50,6 +54,11 @@ a {
 
     padding-block: 10px;
     height: 49px;
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
 }
 
 
@@ -93,6 +102,22 @@ body {
 /* ------ Padding-Inline ------ */
 .pd-x {
     padding-inline: 200px;
+
+    @media (max-width: 1399px) {
+        padding-inline: 120px;
+    }
+
+    @media (max-width: 1299px) {
+        padding-inline: 100px;
+    }
+
+    @media (max-width: 1199px) {
+        padding-inline: 80px;
+    }
+
+    @media (max-width: 1099px) {
+        padding-inline: 60px;
+    }
 }
 
 
@@ -116,5 +141,11 @@ body {
     &.cancelled {
         background-color: $cancelled;
     }
+}
 
+
+/* ------ Lines ------ */
+.lines {
+    margin: 80px 200px;
+    border: 1px solid $color4;
 }

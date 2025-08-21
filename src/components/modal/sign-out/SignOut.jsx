@@ -1,7 +1,8 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap';
+import { loaders } from '../../loader/Loader';
 
-const SignOut = ({ show, handleClose }) => {
+const SignOut = ({ show, handleClose, handleSignOut, loader }) => {
     return (
         <>
             <Modal
@@ -23,8 +24,15 @@ const SignOut = ({ show, handleClose }) => {
                             NO
                         </button>
 
-                        <button type='button' className='main_btn yes' onClick={handleClose}>
-                            YES
+                        <button
+                            type='button'
+                            className='main_btn yes'
+                            onClick={handleSignOut}
+                            disabled={loader}
+                        >
+                            {
+                                loader ? loaders.btn : 'YES'
+                            }
                         </button>
                     </div>
                 </Modal.Body>

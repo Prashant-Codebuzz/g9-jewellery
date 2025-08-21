@@ -6,6 +6,16 @@
 
 :root {
     --white1: #ffffff;
+    --black1: #000000;
+
+    --color-1: #FFFFFF33;
+    --color-2: #00000066;
+    --color-3: #FFFFFF99;
+    --color-4: #CBCBCB;
+    --color-5: #E7E7E7;
+
+    --gradient-color-1: linear-gradient(180deg, #F7F7F7 0%, #E0E0E0 100%);
+
 
     --pending: #F4B80C;
     --delivered: #34A853;
@@ -27,6 +37,8 @@
     --form-shadow: #0000000D;
     --otp-color: #00643C;
 
+    --gradient-color1: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+
     --color1: #0000000D;
     --color2: #060606;
     --color3: #000000;
@@ -34,7 +46,8 @@
     --color5: #00000099;
     --color6: #F2F2F2;
     --color7: #ffffff;
-
+    --color8: #000000;
+    --color9: #00000033;
 }
 
 
@@ -55,6 +68,8 @@
     --form-shadow: #FFFFFF0D;
     --otp-color: #ffffff;
 
+    --gradient-color1: linear-gradient(180deg, #0A1937 0%, rgba(10, 25, 55, 0) 100%);
+
     --color1: #0A1937;
     --color2: #0A1937;
     --color3: #061531;
@@ -62,6 +77,8 @@
     --color5: #FFFFFF99;
     --color6: #0A1937;
     --color7: #0A1937;
+    --color8: #E4BC88;
+    --color9: #00000033;
 }
 
 
@@ -78,6 +95,15 @@ $times: 'Times New Roman', serif;
 
 /* -- Color -- */
 $white1: var(--white1);
+$black1: var(--black1);
+
+$color-1: var(--color-1);
+$color-2: var(--color-2);
+$color-3: var(--color-3);
+$color-4: var(--color-4);
+$color-5: var(--color-5);
+
+$gradient-color-1: var(--gradient-color-1);
 
 /* -- Status -- */
 $pending : var(--pending);
@@ -104,6 +130,8 @@ $form-shadow: var(--form-shadow);
 $otp-color: var(--otp-color);
 
 /* -- Color -- */
+$gradient-color1: var(--gradient-color1);
+
 $color1: var(--color1);
 $color2: var(--color2);
 $color3: var(--color3);
@@ -111,3 +139,5 @@ $color4: var(--color4);
 $color5: var(--color5);
 $color6: var(--color6);
 $color7: var(--color7);
+$color8: var(--color8);
+$color9: var(--color9);

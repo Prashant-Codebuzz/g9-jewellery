@@ -1,12 +1,68 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { reqtoEditManageAddress } from '../../../../redux-Toolkit/services/AccountServices';
+import { loaders } from '../../../../components/loader/Loader';
+import { editManageAddress } from '../../../../redux-Toolkit/slices/AccountSlice';
 
 // Css
 // import "./CreateAddress.scss"
 
+const initialState = {
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    country: "",
+    postal_code: "",
+    address_type: "",
+}
+
 const EditAddress = () => {
 
+    const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const userAccount = useSelector((state) => state.UserAccount);
+    const { manageAddressLoader, manageAddressEdit } = userAccount;
+
+    const [formData, setFormData] = useState(initialState);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // const res = await dispatch(reqtoEditManageAddress({ id, data: formData }));
+
+        // if (res.payload?.status) {
+            // dispatch(editManageAddress());
+            navigate("/address");
+        // }
+    }
+
+    useEffect(() => {
+        if (manageAddressEdit) {
+            setFormData({
+                address_line_1: manageAddressEdit?.address_line_1,
+                address_line_2: manageAddressEdit?.address_line_2,
+                city: manageAddressEdit?.city,
+                state: manageAddressEdit?.state,
+                country: manageAddressEdit?.country,
+                postal_code: manageAddressEdit?.postal_code,
+                address_type: manageAddressEdit?.address_type,
+            });
+        }
+    }, [manageAddressEdit]);
+
 
     return (
         <>
@@ -16,28 +72,32 @@ const EditAddress = () => {
                 <h4>Edit Address</h4>
 
                 <div className='address_form'>
-                    <form className='row m-0'>
+                    <form className='row m-0' onSubmit={handleSubmit}>
                         <div className="col-lg-6 mb-4">
-                            <label htmlFor="address1" className='form-label'>Address Line 1 *</label>
+                            <label htmlFor="address_line_1" className='form-label'>Address Line 1 *</label>
                             <div>
                                 <input
                                     type="text"
-                                    name='address1'
+                                    name='address_line_1'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.address_line_1}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
                         <div className="col-lg-6 mb-4">
-                            <label htmlFor="address2" className='form-label'>Address Line 2 *</label>
+                            <label htmlFor="address_line_2" className='form-label'>Address Line 2 *</label>
                             <div>
                                 <input
                                     type="text"
-                                    name='address2'
+                                    name='address_line_2'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.address_line_2}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
@@ -49,7 +109,9 @@ const EditAddress = () => {
                                     name='city'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.city}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
@@ -61,7 +123,9 @@ const EditAddress = () => {
                                     name='state'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.state}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
@@ -73,34 +137,39 @@ const EditAddress = () => {
                                     name='country'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.country}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
                         <div className="col-lg-6 mb-4">
-                            <label htmlFor="postalcode" className='form-label'>Postal Code *</label>
+                            <label htmlFor="postal_code" className='form-label'>Postal Code *</label>
                             <div>
                                 <input
                                     type="text"
-                                    name='postalcode'
+                                    name='postal_code'
                                     placeholder=''
                                     className='form-control'
-                                    required
+                                    value={formData?.postal_code}
+                                    onChange={handleChange}
+                                    // required
                                 />
                             </div>
                         </div>
                         <div className="col-lg-12">
-                            <label htmlFor="email" className='form-label'>Address Type *</label>
+                            <label htmlFor="address_type" className='form-label'>Address Type *</label>
                             <div className='d-flex gap-4'>
                                 <div className="form-check">
                                     <input
                                         type="radio"
                                         id="home"
-                                        name="type"
+                                        name="address_type"
                                         className="form-check-input"
-                                        value={"home"}
-                                        checked={"home"}
-                                        required
+                                        value={"Home"}
+                                        checked={formData?.address_type === "Home"}
+                                        onChange={handleChange}
+                                        // required
                                     />
                                     <label className="form-check-label" htmlFor="home">
                                         Home
@@ -110,25 +179,27 @@ const EditAddress = () => {
                                     <input
                                         type="radio"
                                         id="work"
-                                        name="type"
+                                        name="address_type"
                                         className="form-check-input"
                                         value={"Work"}
-                                        checked={"Work"}
-                                        required
+                                        checked={formData?.address_type === "Work"}
+                                        onChange={handleChange}
+                                        // required
                                     />
                                     <label className="form-check-label" htmlFor="work">
-                                        Company
+                                        Work
                                     </label>
                                 </div>
                                 <div className="form-check">
                                     <input
                                         type="radio"
                                         id="other"
-                                        name="type"
+                                        name="address_type"
                                         className="form-check-input"
                                         value={"Other"}
-                                        checked={"Other"}
-                                        required
+                                        checked={formData?.address_type === "Other"}
+                                        onChange={handleChange}
+                                        // required
                                     />
                                     <label className="form-check-label" htmlFor="other">
                                         Other
@@ -137,8 +208,10 @@ const EditAddress = () => {
                             </div>
                         </div>
 
-                        <button type='submit' className='main_btn address_btn' onClick={() => navigate("/address")}>
-                            EDIT ADDRESS
+                        <button type='submit' className='main_btn address_btn'>
+                            {
+                                manageAddressLoader ? loaders.btn : 'SUBMIT'
+                            }
                         </button>
                     </form>
                 </div>

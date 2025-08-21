@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 // Image
@@ -7,16 +7,62 @@ import LogoLight from "../../../assets/images/authentication/logo-light.svg";
 import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
+import { useDispatch, useSelector } from 'react-redux';
+import { reqtoForgetPassword } from '../../../redux-Toolkit/services/authServices';
+import { toast } from 'react-toastify';
+import { loaders } from '../../../components/loader/Loader';
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
+
+const initialState = {
+    identifier: "",
+    // email
+    // Mobile_number
+}
 
 const ForgotPassword = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { loader } = useSelector((state) => state.UserAuth);
+
+    const [formData, setFormData] = useState(initialState);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        navigate("/otp-Verify", { state: "sign-in" });
+        // const { identifier } = formData;
+
+        // let payload = {
+        //     email: "",
+        //     Mobile_number: "",
+        // };
+
+        // if (identifier.includes("@")) {
+        //     payload.email = identifier;
+        // }
+        // else if (/^\d+$/.test(identifier)) {
+        //     payload.Mobile_number = identifier;
+        // }
+        // else {
+        //     return toast.error("Please enter a valid email or mobile number");
+        // }
+
+        // const res = await dispatch(reqtoForgetPassword(payload));
+        // console.log("reqtoForgetPassword--> Res", res);
+
+        // if (res.payload?.status) {
+            navigate("/otp-method");
+        // }
     }
 
     return (
@@ -38,21 +84,29 @@ const ForgotPassword = () => {
 
                             <div className="second">
                                 <div className="col-12 mb-4">
-                                    <label htmlFor="email" className='form-label'>Email Address / Mobile Number *</label>
+                                    <label htmlFor="identifier" className='form-label'>Email Address / Mobile Number *</label>
                                     <div>
                                         <input
-                                            type="email"
-                                            name='email'
+                                            type="text"
+                                            name='identifier'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData.identifier}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
 
                                 <div className='text-center'>
-                                    <button type='submit' className='main_btn auth_btn'>
-                                        CONTINUE
+                                    <button
+                                        type='submit'
+                                        className='main_btn auth_btn'
+                                        disabled={loader}
+                                    >
+                                        {
+                                            loader ? loaders.btn : 'CONTINUE'
+                                        }
                                     </button>
                                 </div>
                             </div>

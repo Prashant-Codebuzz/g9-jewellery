@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 // Image
@@ -7,16 +7,48 @@ import LogoLight from "../../../assets/images/authentication/logo-light.svg";
 import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
+import { reqtoAddressDetail } from '../../../redux-Toolkit/services/authServices';
+import { useDispatch, useSelector } from 'react-redux';
+import { loaders } from '../../../components/loader/Loader';
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
+
+const initialState = {
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    country: "",
+    postal_code: "",
+    address_type: "",
+}
 
 const AddressDetails = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { loader } = useSelector((state) => state.UserAuth);
+
+    const [formData, setFormData] = useState(initialState);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        navigate("/");
+        // const res = await dispatch(reqtoAddressDetail(formData));
+        // console.log("reqtoAddressDetail--> Res", res);
+
+        // if (res.payload?.status) {
+            navigate("/");
+        // }
     }
 
     return (
@@ -33,32 +65,36 @@ const AddressDetails = () => {
                             <div className="top">
                                 <h2>Address Details</h2>
 
-                                <p>Enter your delivery address for shipping!</p>
+                                <p>Enter your delivery and billing address for shipping!</p>
                             </div>
 
                             <div className="second row">
                                 <div className="col-12 mb-3">
-                                    <label htmlFor="address" className='form-label'>Address Line 1 *</label>
+                                    <label htmlFor="address_line_1" className='form-label'>Address Line 1 *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='address'
+                                            name='address_line_1'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.address_line_1}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
 
                                 <div className="col-12 mb-3">
-                                    <label htmlFor="address" className='form-label'>Address Line 2 *</label>
+                                    <label htmlFor="address_line_2" className='form-label'>Address Line 2 *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='address'
+                                            name='address_line_2'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.address_line_2}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
@@ -71,20 +107,24 @@ const AddressDetails = () => {
                                             name='city'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.city}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
 
                                 <div className="col-6 mb-3 ps-3">
-                                    <label htmlFor="city" className='form-label'>State/Province *</label>
+                                    <label htmlFor="state" className='form-label'>State/Province *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='city'
+                                            name='state'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.state}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
@@ -97,37 +137,42 @@ const AddressDetails = () => {
                                             name='country'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.country}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
 
                                 <div className="col-6 mb-3 ps-3">
-                                    <label htmlFor="code" className='form-label'>Postal Code *</label>
+                                    <label htmlFor="postal_code" className='form-label'>Postal Code *</label>
                                     <div>
                                         <input
                                             type="text"
-                                            name='code'
+                                            name='postal_code'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData?.postal_code}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
 
 
                                 <div className="col-12 mb-4">
-                                    <label htmlFor="email" className='form-label'>Address Type *</label>
+                                    <label htmlFor="address_type" className='form-label'>Address Type *</label>
                                     <div className='d-flex gap-4'>
                                         <div className="form-check">
                                             <input
                                                 type="radio"
                                                 id="home"
-                                                name="type"
+                                                name="address_type"
                                                 className="form-check-input"
-                                                value={"home"}
-                                                checked={"home"}
-                                                required
+                                                value={"Home"}
+                                                checked={formData?.address_type === "Home"}
+                                                onChange={handleChange}
+                                                // required
                                             />
                                             <label className="form-check-label" htmlFor="home">
                                                 Home
@@ -137,25 +182,27 @@ const AddressDetails = () => {
                                             <input
                                                 type="radio"
                                                 id="work"
-                                                name="type"
+                                                name="address_type"
                                                 className="form-check-input"
                                                 value={"Work"}
-                                                checked={"Work"}
-                                                required
+                                                checked={formData?.address_type === "Work"}
+                                                onChange={handleChange}
+                                                // required
                                             />
                                             <label className="form-check-label" htmlFor="work">
-                                                Company
+                                                Work
                                             </label>
                                         </div>
                                         <div className="form-check">
                                             <input
                                                 type="radio"
                                                 id="other"
-                                                name="type"
+                                                name="address_type"
                                                 className="form-check-input"
                                                 value={"Other"}
-                                                checked={"Other"}
-                                                required
+                                                checked={formData?.address_type === "Other"}
+                                                onChange={handleChange}
+                                                // required
                                             />
                                             <label className="form-check-label" htmlFor="other">
                                                 Other
@@ -165,8 +212,14 @@ const AddressDetails = () => {
                                 </div>
 
                                 <div className='text-center'>
-                                    <button type='submit' className='main_btn auth_btn'>
-                                        SUBMIT
+                                    <button
+                                        type='submit'
+                                        className='main_btn auth_btn'
+                                        disabled={loader}
+                                    >
+                                        {
+                                            loader ? loaders.btn : 'SUBMIT'
+                                        }
                                     </button>
                                 </div>
                             </div>

@@ -9,8 +9,11 @@ import GoogleIcon from "../../assets/images/authentication/google-icon.svg";
 import LogoDark from "../../assets/images/authentication/logo-dark.svg";
 // import GoogleIcon from "../../assets/images/authentication/google-icon.svg";
 
-import { Axios } from '../../helper/Axios';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { loaders } from '../loader/Loader';
+import { reqtoOtpVerification } from '../../redux-Toolkit/services/authServices';
+import { signUpResendOtp } from '../../redux-Toolkit/slices/AuthSlice';
 
 const initialOtpState = ["", "", "", "", "", ""];
 
@@ -21,11 +24,10 @@ const initialResendState = {
 
 const OtpVerification = () => {
 
-    const { state } = useLocation();
-    const { type, email } = state || null;
-    console.log(state);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { loader, email, phone, type, pageType } = useSelector((state) => state.UserAuth);
 
     const [otp, setOtp] = useState(initialOtpState);
     const [resend, setResend] = useState(initialResendState);
@@ -72,50 +74,44 @@ const OtpVerification = () => {
     };
 
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const enteredOtp = otp?.join('');
         if (enteredOtp.length === 6) {
 
-            try {
-                const res = await Axios.post("/user/signUp", formdata, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                console.log(res);
+            let payload = { otp: enteredOtp };
 
-                if (res?.data?.status) {
-                    // navigate("/mobile-otp-Verify", { state: { type: "sign-up", email: formdata.email } });
-                    toast.success(res.data.message);
-
-                    if (state === "sign-in") {
-                        navigate("/create-password");
-                    }
-                    else {
-                        navigate("/address-details");
-                    }
-
-                } else {
-                    toast.error(res.data.message);
-                }
-            } catch (err) {
-                console.error(err);
+            if (type === "email") {
+                payload = { ...payload, email: email };
+            }
+            else if (type === "sms" || type === "whatsapp") {
+                payload = { ...payload, Mobile_number: phone };
             }
 
+            // const res = await dispatch(reqtoOtpVerification(payload));
+            // console.log("reqtoOtpVerification--> Res", res);
+
+            // if (res.payload?.status) {
+            navigate(pageType === "forgot-password" ? "/create-password" : "/address-details");
+            // }
         }
         else {
-            alert("Please enter all 6 digits");
+            toast.error("Please enter all 6 digits");
         }
     }
 
 
     const handleResend = async () => {
-        setOtp(initialOtpState);
+        // setOtp(initialOtpState);
 
-        setResend(initialResendState);
+        // setResend(initialResendState);
+
+        if (pageType === "sign-up") {
+            dispatch(signUpResendOtp());
+        }
+
+        navigate("/otp-method");
     }
 
 
@@ -143,6 +139,8 @@ const OtpVerification = () => {
 
     return (
         <>
+            <div id="otp-timer"></div>
+
             <div className='authentication otp'>
                 <div className="row justify-content-center align-items-center h-100">
                     <div className="col-10 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4">
@@ -152,12 +150,63 @@ const OtpVerification = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="top">
-                                <h2>Email OTP Verification</h2>
+                                <h2>OTP Verification</h2>
 
-                                <p>Enter OTP that we have send on <span>{email}</span></p>
+                                <p>Enter OTP that we have send on <span>{email || phone}</span></p>
                             </div>
 
                             <div className="second">
+                                <div className="col-12 mb-4">
+                                    {/* <label htmlFor="type" className='form-label'>Address Type *</label> */}
+                                    <div className='d-flex gap-4'>
+                                        <div className="form-check">
+                                            <input
+                                                type="radio"
+                                                id="email"
+                                                name="type"
+                                                className="form-check-input"
+                                                value={"email"}
+                                                checked={type === "email"}
+                                                readOnly
+                                                disabled
+                                            />
+                                            <label className="form-check-label" htmlFor="email">
+                                                Email
+                                            </label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input
+                                                type="radio"
+                                                id="sms"
+                                                name="type"
+                                                className="form-check-input"
+                                                value={"sms"}
+                                                checked={type === "sms"}
+                                                readOnly
+                                                disabled
+                                            />
+                                            <label className="form-check-label" htmlFor="sms">
+                                                SMS
+                                            </label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input
+                                                type="radio"
+                                                id="whatsapp"
+                                                name="type"
+                                                className="form-check-input"
+                                                value={"whatsapp"}
+                                                checked={type === "whatsapp"}
+                                                readOnly
+                                                disabled
+                                            />
+                                            <label className="form-check-label" htmlFor="whatsapp">
+                                                WhatsApp
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="col-12 mb-2">
                                     <div className='otp-container'>
 
@@ -200,8 +249,14 @@ const OtpVerification = () => {
                                 </div>
 
                                 <div className='text-center'>
-                                    <button type='submit' className='main_btn auth_btn'>
-                                        VERIFY
+                                    <button
+                                        type='submit'
+                                        className='main_btn auth_btn'
+                                        disabled={loader}
+                                    >
+                                        {
+                                            loader ? loaders.btn : 'VERIFY OTP'
+                                        }
                                     </button>
                                 </div>
                             </div>

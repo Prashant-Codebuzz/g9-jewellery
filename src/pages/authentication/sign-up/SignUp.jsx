@@ -9,8 +9,11 @@ import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 
-import { Axios } from '../../../helper/Axios';
 import { toast } from 'react-toastify';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { reqtoSignUp } from '../../../redux-Toolkit/services/authServices';
+import { loaders } from '../../../components/loader/Loader';
 
 const initialState = {
     name: '',
@@ -22,7 +25,10 @@ const initialState = {
 
 const SignUp = () => {
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { loader } = useSelector((state) => state.UserAuth);
 
     const [formdata, setFormData] = useState(initialState);
 
@@ -38,23 +44,30 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const res = await Axios.post("/user/signUp", formdata, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            console.log(res);
+        // const res = await dispatch(reqtoSignUp(formdata));
+        // console.log("reqtoSignUp--> Res", res);
 
-            if (res?.data?.status) {
-                navigate("/otp-Verify", { state: { type: "sign-up", email: formdata.email } });
-                toast.success(res.data.message);
-            } else {
-                toast.error(res.data.message);
-            }
-        } catch (err) {
-            console.error(err);
-        }
+        // if (res.payload?.status) {
+            navigate("/otp-method");
+        // }
+
+        // try {
+        //     const res = await Axios.post("/user/signUp", formdata, {
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         }
+        //     });
+        //     console.log(res);
+
+        //     if (res?.data?.status) {
+        //         // navigate("/otp-Verify", { state: { type: "sign-up", email: formdata.email } });
+        //         toast.success(res.data.message);
+        //     } else {
+        //         toast.error(res.data.message);
+        //     }
+        // } catch (err) {
+        //     console.error(err);
+        // }
     }
 
     return (
@@ -69,9 +82,9 @@ const SignUp = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="top">
-                                <h2>Sign up</h2>
+                                <h2>Sign Up</h2>
 
-                                <p>Enter your email address and other details for sign-up!</p>
+                                <p>Enter your email address/mobile number and basic details for sign-up!</p>
                             </div>
 
                             <div className="second">
@@ -85,7 +98,7 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.name}
                                             onChange={handleChange}
-                                            required
+                                            // required
                                         />
                                     </div>
                                 </div>
@@ -100,7 +113,7 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.email}
                                             onChange={handleChange}
-                                            required
+                                            // required
                                         />
                                     </div>
                                 </div>
@@ -118,7 +131,7 @@ const SignUp = () => {
                                             value={formdata.Mobile_number}
                                             onChange={handleChange}
                                             onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
-                                            required
+                                            // required
                                         />
 
                                     </div>
@@ -134,7 +147,7 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.password}
                                             onChange={handleChange}
-                                            required
+                                            // required
                                         />
 
                                     </div>
@@ -150,15 +163,21 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.ConfirmPassword}
                                             onChange={handleChange}
-                                            required
+                                            // required
                                         />
 
                                     </div>
                                 </div>
 
                                 <div className='text-center'>
-                                    <button type='submit' className='main_btn auth_btn'>
-                                        SIGN UP
+                                    <button
+                                        type='submit'
+                                        className='main_btn auth_btn'
+                                        disabled={loader}
+                                    >
+                                        {
+                                            loader ? loaders.btn : 'SIGN UP'
+                                        }
                                     </button>
                                 </div>
                             </div>

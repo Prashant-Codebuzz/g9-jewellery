@@ -19,6 +19,8 @@
     }
 
     .account_overview {
+        padding-left: 36px;
+
         h4 {
             font-family: $times;
             font-weight: 700;
@@ -58,6 +60,10 @@
                     margin-block: 5px;
                 }
 
+                button{
+                    background: none;
+                    border: none;
+                }
             }
 
             .line {
@@ -89,6 +95,8 @@
             .order_box {
                 .image {
                     height: 100%;
+                    border-radius: 10px;
+                    overflow: hidden;
 
                     img {
                         max-height: 100%;
@@ -204,7 +212,7 @@
 
                 .like {
                     button {
-                        background-color: none;
+                        background: none;
                         border: 0;
                     }
                 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap';
+import { loaders } from '../../loader/Loader';
 
-const Primary = ({ show, handleClose }) => {
+const Primary = ({ show, handleClose, handleSetPrimary, loader }) => {
     return (
         <Modal
             show={show}
@@ -22,8 +23,10 @@ const Primary = ({ show, handleClose }) => {
                         NO
                     </button>
 
-                    <button type='button' className='main_btn yes' onClick={handleClose}>
-                        YES
+                    <button type='button' className='main_btn yes' onClick={handleClose} disabled={loader}>
+                        {
+                            loader ? loaders.btn : 'YES'
+                        }
                     </button>
                 </div>
             </Modal.Body>

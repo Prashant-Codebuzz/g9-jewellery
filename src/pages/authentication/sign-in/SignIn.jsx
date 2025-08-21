@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
 // Css  
@@ -15,17 +15,66 @@ import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 
 // Hooks
 import useThemeMode from '../../../hooks/useThemeMode';
+import { useDispatch, useSelector } from 'react-redux';
+import { loaders } from '../../../components/loader/Loader';
+import { reqtoSignIn } from '../../../redux-Toolkit/services/authServices';
+import { toast } from 'react-toastify';
 
+const initialState = {
+    // email: "",
+    // Mobile_number: "",
+
+    identifier: "",
+    password: "",
+}
 
 const SignIn = () => {
 
     const ThemeMode = useThemeMode();
-    
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { loader } = useSelector((state) => state.UserAuth);
+
+    const [formData, setFormData] = useState(initialState);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // const { identifier, password } = formData;
+
+        // let payload = {
+        //     email: "",
+        //     Mobile_number: "",
+        //     password: password
+        // };
+
+        // if (identifier.includes("@")) {
+        //     payload.email = identifier;
+        // }
+        // else if (/^\d+$/.test(identifier)) {
+        //     payload.Mobile_number = identifier;
+        // }
+        // else {
+        //     return toast.error("Please enter a valid email or mobile number");
+        // }
+
+        // const res = await dispatch(reqtoSignIn(payload));
+        // console.log("reqtoAddressDetail--> Res", res);
+
+        // if (res.payload?.status) {
+            navigate("/account");
+        // }
     }
 
 
@@ -40,21 +89,23 @@ const SignIn = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="top">
-                                <h2>Sign in</h2>
+                                <h2>Sign In</h2>
 
-                                <p>Enter your email address and password for sign-in!</p>
+                                <p>Enter your email address/mobile number and password for sign-in!</p>
                             </div>
 
                             <div className="second">
                                 <div className="col-12 mb-3">
-                                    <label htmlFor="email" className='form-label'>Email Address *</label>
+                                    <label htmlFor="identifier" className='form-label'>Email Address / Mobile Number *</label>
                                     <div>
                                         <input
-                                            type="email"
-                                            name='email'
+                                            type="text"
+                                            name='identifier'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData.identifier}
+                                            // onChange={handleChange}
+                                            // required
                                         />
                                     </div>
                                 </div>
@@ -67,19 +118,27 @@ const SignIn = () => {
                                             name='password'
                                             placeholder=''
                                             className='form-control'
-                                            required
+                                            // value={formData.password}
+                                            // onChange={handleChange}
+                                            // required
                                         />
 
                                     </div>
                                 </div>
 
                                 <div className='mb-4 text-end forgot-password'>
-                                    <Link to="/forgot-password">Forgot Password?</Link>
+                                    <Link to="/forgot-password">Forgot Password ?</Link>
                                 </div>
 
                                 <div className='text-center'>
-                                    <button type='submit' className='main_btn auth_btn'>
-                                        SIGN IN
+                                    <button
+                                        type='submit'
+                                        className='main_btn auth_btn'
+                                        disabled={loader}
+                                    >
+                                        {
+                                            loader ? loaders.btn : 'SIGN IN'
+                                        }
                                     </button>
                                 </div>
 

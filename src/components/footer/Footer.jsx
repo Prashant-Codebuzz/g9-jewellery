@@ -24,47 +24,47 @@ const Footer = () => {
                         <h3>Quick Links</h3>
 
                         <ul>
-                            <li><Link>Home</Link></li>
-                            <li><Link>About Us</Link></li>
+                            <li><Link to="/home">Home</Link></li>
+                            <li><Link to="/about">About Us</Link></li>
                             <li><Link>Our Story</Link></li>
-                            <li><Link>Contact Us</Link></li>
+                            <li><Link to="/contact-us">Contact Us</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-2">
                         <h3>Men’s Jewellery</h3>
 
                         <ul>
-                            <li><Link>Rings</Link></li>
-                            <li><Link>Bracelets</Link></li>
+                            <li><Link to="/product">Rings</Link></li>
+                            <li><Link to="/product">Bracelets</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-2">
                         <h3>Women’s Jewellery</h3>
 
                         <ul>
-                            <li><Link>Rings</Link></li>
-                            <li><Link>Bracelets</Link></li>
-                            <li><Link>Necklaces</Link></li>
-                            <li><Link>Earrings</Link></li>
-                            <li><Link>Chains</Link></li>
+                            <li><Link to="/product">Rings</Link></li>
+                            <li><Link to="/product">Bracelets</Link></li>
+                            <li><Link to="/product">Necklaces</Link></li>
+                            <li><Link to="/product">Earrings</Link></li>
+                            <li><Link to="/product">Chains</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-2">
                         <h3>Accessories</h3>
 
                         <ul>
-                            <li><Link>Watches</Link></li>
-                            <li><Link>Diamonds</Link></li>
+                            <li><Link to="/product">Watches</Link></li>
+                            <li><Link to="/product">Diamonds</Link></li>
                         </ul>
                     </div>
                     <div className="col-lg-2">
                         <h3>Policies</h3>
 
                         <ul>
-                            <li><Link>Privacy Policy</Link></li>
-                            <li><Link>Terms & Conditions</Link></li>
-                            <li><Link>Payment & Delivery Policy</Link></li>
-                            <li><Link>Refund & Return Policy</Link></li>
+                            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                            <li><Link to="/terms-conditions">Terms & Conditions</Link></li>
+                            <li><Link to="/payment-delivery-policy">Payment & Delivery Policy</Link></li>
+                            <li><Link to="/return-refund-policy">Refund & Return Policy</Link></li>
                         </ul>
                     </div>
                 </div>
