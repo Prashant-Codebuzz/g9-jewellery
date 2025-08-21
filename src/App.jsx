@@ -30,10 +30,10 @@ import ProductDetails from './pages/product-details/ProductDetails';
 import Cart from './pages/cart/Cart';
 import Checkout from './pages/checkout/Checkout';
 import OrderConfirmation from './pages/order-confirmation/OrderConfirmation';
-import PrivacyPolicy from './pages/policy\'s/PrivacyPolicy';
-import TermsConditions from './pages/policy\'s/TermsConditions';
-import PaymentDeliveryPolicy from './pages/policy\'s/PaymentDeliveryPolicy';
-import ReturnRefundPolicy from './pages/policy\'s/ReturnRefundPolicy';
+import PrivacyPolicy from './pages/policy/PrivacyPolicy';
+import TermsConditions from './pages/policy/TermsConditions';
+import PaymentDeliveryPolicy from './pages/policy/PaymentDeliveryPolicy';
+import ReturnRefundPolicy from './pages/policy/ReturnRefundPolicy';
 
 import ScrollToTop from './components/scroll-to-top/ScrollToTop';
 
