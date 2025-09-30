@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const otpAuthHeaders = () => {
-    const token = localStorage.getItem("otp-token");
+    // const token = localStorage.getItem("otp-token");
+    const token = localStorage.getItem("g9jewellery-user-token");
 
     return {
         headers: {

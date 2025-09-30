@@ -26,7 +26,7 @@ const Delete = ({ show, handleClose, handleDelete, loader }) => {
                         NO
                     </button>
 
-                    <button type='button' className='main_btn yes' onClick={handleClose} disabled={loader}>
+                    <button type='button' className='main_btn yes' onClick={handleDelete} disabled={loader}>
                         {
                             loader ? loaders.btn : 'YES'
                         }

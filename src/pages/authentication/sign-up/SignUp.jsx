@@ -4,9 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 // Image
 // Light
 import LogoLight from "../../../assets/images/authentication/logo-light.svg";
+import PasswordShowLight from "../../../assets/images/authentication/password-show-light.svg";
+import PasswordHideLight from "../../../assets/images/authentication/password-hide-light.svg";
 import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
+import PasswordShowDark from "../../../assets/images/authentication/password-show-dark.svg";
+import PasswordHideDark from "../../../assets/images/authentication/password-hide-dark.svg";
 // import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 
 import { toast } from 'react-toastify';
@@ -16,12 +20,19 @@ import { reqtoSignUp } from '../../../redux-Toolkit/services/AuthServices';
 import { loaders } from '../../../components/loader/Loader';
 import useThemeMode from '../../../hooks/useThemeMode';
 
+
 const initialState = {
     name: '',
     email: '',
     Mobile_number: '',
     password: '',
     ConfirmPassword: '',
+    registrationType: 'Web'
+}
+
+const initialPasswordHideShowState = {
+    password: false,
+    confirmPassword: false,
 }
 
 const SignUp = () => {
@@ -34,6 +45,21 @@ const SignUp = () => {
     const { loader } = useSelector((state) => state.UserAuth);
 
     const [formdata, setFormData] = useState(initialState);
+    const [passwordError, setPasswordError] = useState({
+        password: '',
+        ConfirmPassword: '',
+    });
+
+    const [passwordHideShow, setPasswordHideShow] = useState(initialPasswordHideShowState);
+
+    const PasswordHideShow = (type) => {
+        setPasswordHideShow((prev) => ({
+            ...prev,
+            [type]: !prev[type]
+        }));
+    };
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,35 +68,86 @@ const SignUp = () => {
             ...prev,
             [name]: value
         }));
+
+        if (name === "password") {
+            if (!passwordRegex.test(value)) {
+                setPasswordError((prev) => ({
+                    ...prev,
+                    password:
+                        "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.",
+                }));
+            } else {
+                setPasswordError((prev) => ({ ...prev, password: "" }));
+            }
+        }
     }
+
+    const validatePassword = (password) => {
+        const regex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+        if (!regex.test(password)) {
+            setErrors((prev) => ({
+                ...prev,
+                password:
+                    "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character."
+            }));
+            return false;
+        } else {
+            setErrors((prev) => ({ ...prev, password: "" }));
+            return true;
+        }
+    };
+
+    // confirm password check (only onSubmit)
+    const validateConfirmPassword = () => {
+        if (formdata.password !== formdata.ConfirmPassword) {
+            setErrors((prev) => ({
+                ...prev,
+                confirm: "Confirm Password does not match Password."
+            }));
+            return false;
+        } else {
+            setErrors((prev) => ({ ...prev, confirm: "" }));
+            return true;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const res = await dispatch(reqtoSignUp(formdata));
-        // console.log("reqtoSignUp--> Res", res);
 
-        // if (res.payload?.status) {
+        // const isPasswordValid = validatePassword(formdata.password);
+        // const isConfirmValid = validateConfirmPassword();
+
+        // if (!isPasswordValid || !isConfirmValid) return;
+
+
+        if (!passwordRegex.test(formdata.password)) {
+            setPasswordError((prev) => ({
+                ...prev,
+                password:
+                    "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.",
+            }));
+            return;
+        }
+
+        if (formdata.password !== formdata.ConfirmPassword) {
+            setPasswordError((prev) => ({
+                ...prev,
+                ConfirmPassword: "Password does not match.",
+            }));
+            return;
+        } else {
+            setPasswordError((prev) => ({ ...prev, ConfirmPassword: "" }));
+        }
+
+        const res = await dispatch(reqtoSignUp(formdata));
+        console.log("reqtoSignUp--> Res", res);
+
+        if (res.payload?.status) {
             navigate("/otp-method");
-        // }
-
-        // try {
-        //     const res = await Axios.post("/user/signUp", formdata, {
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         }
-        //     });
-        //     console.log(res);
-
-        //     if (res?.data?.status) {
-        //         // navigate("/otp-Verify", { state: { type: "sign-up", email: formdata.email } });
-        //         toast.success(res.data.message);
-        //     } else {
-        //         toast.error(res.data.message);
-        //     }
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        }
     }
 
     return (
@@ -101,7 +178,7 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.name}
                                             onChange={handleChange}
-                                            // required
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -116,7 +193,7 @@ const SignUp = () => {
                                             className='form-control'
                                             value={formdata.email}
                                             onChange={handleChange}
-                                            // required
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -127,14 +204,14 @@ const SignUp = () => {
                                         <input
                                             type="text"
                                             pattern='\d*'
-                                            maxLength={12}
+                                            maxLength={10}
                                             name='Mobile_number'
                                             placeholder=''
                                             className='form-control'
                                             value={formdata.Mobile_number}
                                             onChange={handleChange}
                                             onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
-                                            // required
+                                            required
                                         />
 
                                     </div>
@@ -142,34 +219,50 @@ const SignUp = () => {
 
                                 <div className="col-12 mb-3">
                                     <label htmlFor="password" className='form-label'>Password *</label>
-                                    <div>
+                                    <div className='input-group'>
                                         <input
-                                            type="text"
+                                            type={passwordHideShow.password ? "text" : "password"}
                                             name='password'
                                             placeholder=''
                                             className='form-control'
                                             value={formdata.password}
                                             onChange={handleChange}
-                                            // required
+                                            required
                                         />
 
+                                        <span
+                                            onClick={() => PasswordHideShow('password')}
+                                            className='password_hide_show'
+                                        >
+                                            <img src={passwordHideShow.password ? ThemeMode ? PasswordHideLight : PasswordHideDark : ThemeMode ? PasswordShowLight : PasswordShowDark} alt="Logo" className='img-fluid' draggable={false} />
+                                        </span>
                                     </div>
+
+                                    {passwordError.password && <div className='mt-2 error_message'>{passwordError.password}</div>}
                                 </div>
 
                                 <div className="col-12 mb-4">
                                     <label htmlFor="ConfirmPassword" className='form-label'>Confirm Password *</label>
-                                    <div>
+                                    <div className='input-group'>
                                         <input
-                                            type="text"
+                                            type={passwordHideShow.confirmPassword ? "text" : "password"}
                                             name='ConfirmPassword'
                                             placeholder=''
                                             className='form-control'
                                             value={formdata.ConfirmPassword}
                                             onChange={handleChange}
-                                            // required
+                                            required
                                         />
 
+                                        <span
+                                            onClick={() => PasswordHideShow('confirmPassword')}
+                                            className='password_hide_show'
+                                        >
+                                            <img src={passwordHideShow.confirmPassword ? ThemeMode ? PasswordHideLight : PasswordHideDark : ThemeMode ? PasswordShowLight : PasswordShowDark} alt="Logo" className='img-fluid' draggable={false} />
+                                        </span>
                                     </div>
+
+                                    {passwordError.ConfirmPassword && <div className='mt-2 error_message'>{passwordError.ConfirmPassword}</div>}
                                 </div>
 
                                 <div className='text-center'>

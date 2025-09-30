@@ -8,7 +8,7 @@ import GoogleIcon from "../../../assets/images/authentication/google-icon.svg";
 // Dark
 import LogoDark from "../../../assets/images/authentication/logo-dark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { reqtoForgetPassword } from '../../../redux-Toolkit/services/AuthServices';
+import { reqtoForgetPassword, reqtoOtpMethod } from '../../../redux-Toolkit/services/AuthServices';
 import { toast } from 'react-toastify';
 import { loaders } from '../../../components/loader/Loader';
 import useThemeMode from '../../../hooks/useThemeMode';
@@ -43,29 +43,46 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const { identifier } = formData;
+        const { identifier } = formData;
 
-        // let payload = {
-        //     email: "",
-        //     Mobile_number: "",
-        // };
+        let payload = {
+            email: "",
+            Mobile_number: "",
+        };
 
-        // if (identifier.includes("@")) {
-        //     payload.email = identifier;
-        // }
-        // else if (/^\d+$/.test(identifier)) {
-        //     payload.Mobile_number = identifier;
-        // }
-        // else {
-        //     return toast.error("Please enter a valid email or mobile number");
-        // }
+        if (identifier.includes("@")) {
+            payload.email = identifier;
+        }
+        else if (/^\d+$/.test(identifier)) {
+            payload.Mobile_number = identifier;
+        }
+        else {
+            return toast.error("Please enter a valid email or mobile number");
+        }
 
-        // const res = await dispatch(reqtoForgetPassword(payload));
-        // console.log("reqtoForgetPassword--> Res", res);
+        const res = await dispatch(reqtoForgetPassword(payload));
+        console.log("reqtoForgetPassword--> Res", res);
 
-        // if (res.payload?.status) {
-        navigate("/otp-method");
-        // }
+        if (res.payload?.status) {
+
+            let otpPayload = { type: identifier.includes("@") ? "email" : "sms" };
+            console.log(otpPayload);
+
+            if (identifier.includes("@")) {
+                otpPayload.email = identifier;
+            }
+            else if (/^\d+$/.test(identifier)) {
+                otpPayload.Mobile_number = identifier;
+            }
+
+            const otpMethodRes = await dispatch(reqtoOtpMethod(otpPayload));
+            console.log("reqtoOtpMethod--> Res", res);
+
+            if (otpMethodRes.payload?.status) {
+                navigate(identifier.includes("@") ? "/email-otp-verify" : "/mobile-otp-verify");
+            }
+
+        }
     }
 
     return (
@@ -94,9 +111,9 @@ const ForgotPassword = () => {
                                             name='identifier'
                                             placeholder=''
                                             className='form-control'
-                                        // value={formData.identifier}
-                                        // onChange={handleChange}
-                                        // required
+                                            value={formData.identifier}
+                                            onChange={handleChange}
+                                            required
                                         />
                                     </div>
                                 </div>

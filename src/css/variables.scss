@@ -7,6 +7,7 @@
 :root {
     --white1: #ffffff;
     --black1: #000000;
+    --error-color: #dc3545;
 
     --color-1: #FFFFFF33;
     --color-2: #00000066;
@@ -27,6 +28,7 @@
 
     --theme-toggle-border: #0D1C39;
     --theme-toggle-hover: #ffffff;
+    --theme-group-border: #FFFFFF1A;
 
     --main-btn-color: #0D1C39;
 
@@ -39,6 +41,10 @@
 
     --gradient-color1: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
 
+    --chatbot-shadow: 4px 0px 19px 0px #0000001A;
+    --chatbot-title: #0A1937;
+    --chatbot-input: #00000080;
+
     --color1: #0000000D;
     --color2: #060606;
     --color3: #000000;
@@ -49,6 +55,11 @@
     --color8: #000000;
     --color9: #00000033;
     --color10: #F2F2F2;
+    --color11: #0000001A;
+    --color12: #071E46;
+    --color13: #FFFFFF;
+    --color14: #F2F2F2;
+    --color15: #0000001a;
 }
 
 [data-theme='dark'] {
@@ -58,17 +69,22 @@
 
     --theme-toggle-border: #ffffff;
     --theme-toggle-hover: #0D1C39;
+    --theme-group-border: #0000000D;
 
     --main-btn-color: #E4BC88;
 
     --border-color: #FFFFFF0D;
     --input-bg: #FFFFFF03;
-    --placeholder-color: #313131;
+    --placeholder-color: #d4d4d4;
     --form-bg: #0A1937;
     --form-shadow: #FFFFFF0D;
     --otp-color: #ffffff;
 
     --gradient-color1: linear-gradient(180deg, #0A1937 0%, rgba(10, 25, 55, 0) 100%);
+
+    --chatbot-shadow: 0px 0px 30px 0px #FFFFFF05;
+    --chatbot-title: #E4BC88;
+    --chatbot-input: #FFFFFF80;
 
     --color1: #0A1937;
     --color2: #0A1937;
@@ -80,6 +96,11 @@
     --color8: #E4BC88;
     --color9: #FFFFFF33;
     --color10: #FFFFFF33;
+    --color11: #FFFFFF99;
+    --color12: #FFFFFF;
+    --color13: #0A193799;
+    --color14: #FFFFFF1A;
+    --color15: #ffffff8a;
 }
 
 
@@ -97,6 +118,7 @@ $times: 'Times New Roman', serif;
 /* -- Color -- */
 $white1: var(--white1);
 $black1: var(--black1);
+$error-color: var(--error-color);
 
 $color-1: var(--color-1);
 $color-2: var(--color-2);
@@ -117,6 +139,7 @@ $white: var(--white);
 
 $theme-toggle-border: var(--theme-toggle-border);
 $theme-toggle-hover: var(--theme-toggle-hover);
+$theme-group-border: var(--theme-group-border);
 
 /* -- Button -- */
 $main-btn-color: var(--main-btn-color);
@@ -133,6 +156,10 @@ $otp-color: var(--otp-color);
 /* -- Color -- */
 $gradient-color1: var(--gradient-color1);
 
+$chatbot-shadow: var(--chatbot-shadow);
+$chatbot-title: var(--chatbot-title);
+$chatbot-input: var(--chatbot-input);
+
 $color1: var(--color1);
 $color2: var(--color2);
 $color3: var(--color3);
@@ -143,3 +170,8 @@ $color7: var(--color7);
 $color8: var(--color8);
 $color9: var(--color9);
 $color10: var(--color10);
+$color11: var(--color11);
+$color12: var(--color12);
+$color13: var(--color13);
+$color14: var(--color14);
+$color15: var(--color15);

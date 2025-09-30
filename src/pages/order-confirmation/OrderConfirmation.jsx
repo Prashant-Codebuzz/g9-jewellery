@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // Css
 import "./OrderConfirmation.scss"
@@ -15,6 +15,10 @@ import useThemeMode from '../../hooks/useThemeMode';
 const OrderConfirmation = () => {
 
     const ThemeMode = useThemeMode();
+
+    const location = useLocation();
+    const orderInfo = location?.state || {};
+    console.log(location);
 
     const navigate = useNavigate();
 
@@ -33,10 +37,10 @@ const OrderConfirmation = () => {
                     <img src={ThemeMode ? OrderPlace : OrderPlaceDark} alt="Order Placed" className='img-fluid' draggable={false} />
                 </div>
 
-                <h4>Order ID: #569848</h4>
+                <h4>Order ID: {orderInfo?.orderId}</h4>
 
                 <p>
-                    <Link to={`/order-details/${1}`}>View Order Details</Link>
+                    <Link to={`/order-details/${orderInfo?.id}`}>View Order Details</Link>
                 </p>
 
                 <button type='button' className='main_btn back_to_home' onClick={() => navigate("/home")}>

@@ -48,11 +48,18 @@
         }
     }
 
-    ul {
+    ul,ol {
         padding-left: 20px;
 
         li {
             list-style: disc;
+
+            font-family: $avenir;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 26px;
+            color: $color5;
+            margin-bottom: 10px;
 
             p {
                 margin-bottom: 10px;

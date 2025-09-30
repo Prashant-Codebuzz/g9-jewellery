@@ -41,12 +41,12 @@ const EditAddress = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const res = await dispatch(reqtoEditManageAddress({ id, data: formData }));
+        const res = await dispatch(reqtoEditManageAddress({ id, data: formData }));
 
-        // if (res.payload?.status) {
-            // dispatch(editManageAddress());
+        if (res.payload?.status) {
+            dispatch(editManageAddress());
             navigate("/address");
-        // }
+        }
     }
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.address_line_1}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -97,7 +97,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.address_line_2}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -111,7 +111,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.city}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -125,7 +125,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.state}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -139,7 +139,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.country}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -153,7 +153,7 @@ const EditAddress = () => {
                                     className='form-control'
                                     value={formData?.postal_code}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -169,7 +169,7 @@ const EditAddress = () => {
                                         value={"Home"}
                                         checked={formData?.address_type === "Home"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="home">
                                         Home
@@ -184,7 +184,7 @@ const EditAddress = () => {
                                         value={"Work"}
                                         checked={formData?.address_type === "Work"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="work">
                                         Work
@@ -199,7 +199,7 @@ const EditAddress = () => {
                                         value={"Other"}
                                         checked={formData?.address_type === "Other"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="other">
                                         Other
@@ -208,7 +208,7 @@ const EditAddress = () => {
                             </div>
                         </div>
 
-                        <button type='submit' className='main_btn address_btn'>
+                        <button type='submit' className='main_btn address_btn' disabled={manageAddressLoader}>
                             {
                                 manageAddressLoader ? loaders.btn : 'SUBMIT'
                             }

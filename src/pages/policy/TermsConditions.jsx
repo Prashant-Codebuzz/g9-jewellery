@@ -1,7 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { reqtoGetPolicy } from '../../redux-Toolkit/services/PolicyServices';
+
+import DOMPurify from 'dompurify';
 
 const TermsConditions = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const home = useSelector((state) => state.Policy);
+    const { loader, policyList } = home;
+
+    console.log(policyList);
+
+    const GetPolicy = async () => {
+        await dispatch(reqtoGetPolicy());
+    }
+
+    useEffect(() => {
+        GetPolicy();
+    }, []);
+
+    const policy = policyList?.find((i) => i.name === "Terms & Conditions");
+
     return (
         <>
 
@@ -9,7 +33,7 @@ const TermsConditions = () => {
             <div className="policy pd-x">
                 <h4>Terms & Conditions</h4>
 
-                <p className='black mb-40'>
+                {/* <p className='black mb-40'>
                     Welcome to G9 Jewellery ("we," "our," "us"). By accessing or using our website and purchasing our products, you agree to comply with and be bound by these Terms & Conditions. Please read them carefully before using our services.
                 </p>
 
@@ -69,8 +93,14 @@ const TermsConditions = () => {
 
                 <p className='black mb-10'>9. Contact Us</p>
                 <p>If you have any questions about these Terms & Conditions, please contact us:</p>
-                <p className='mb-10'>Email: <Link to="mailto:support@g9jewellery.com">support@g9jewellery.com</Link></p>
-                <p className='mb-0'>Phone: <Link to="tel:+1234657890">+123 465 7890</Link></p>
+                <p className='mb-10'>Email: <Link to="mailto:g9jewellerys@gmail.com">g9jewellerys@gmail.com</Link></p>
+                <p className='mb-0'>Phone: <Link to="tel:+917285858542">+91 7285 858 542</Link></p> */}
+
+
+                <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(policy?.description) }}
+                />
+
             </div>
             {/* ------ Terms-Conditions End ------ */}
 

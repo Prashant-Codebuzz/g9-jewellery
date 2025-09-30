@@ -5,6 +5,7 @@
     padding-block: 80px;
 
     .checkout_top {
+
         .page_menu,
         p {
             font-family: $avenir;
@@ -108,18 +109,26 @@
             background-color: $color1;
             border-radius: 16px;
             padding: 40px;
-            margin-left: 36px;
+            margin-left: 20px   ;
 
             h4 {
                 font-family: $times;
                 font-weight: 700;
                 font-size: 30px;
                 color: $black;
-                margin-bottom: 40px;
+                margin-bottom: 7px;
+            }
+
+            p {
+                font-family: $avenir;
+                font-weight: 600;
+                font-size: 18px;
+                color: $color5;
+                margin-bottom: 0;
             }
 
             .price_list {
-                margin-block: 40px;
+                margin-block: 30px;
 
                 .mb-15 {
                     margin-block: 15px;
@@ -130,7 +139,7 @@
                     font-family: $avenir;
                     font-weight: 600;
                     font-size: 20px;
-                    color: $color5;
+                    color: $black;
                 }
 
 
@@ -154,6 +163,7 @@
             .pay_now {
                 height: fit-content;
                 padding-block: 16px;
+                font-size: 20px;
             }
         }
     }

@@ -6,13 +6,21 @@ import { Modal } from 'react-bootstrap';
 import HomeLight from "../../../assets/images/account/home-light.svg";
 import WorkLight from "../../../assets/images/account/work-light.svg";
 import OtherLight from "../../../assets/images/account/other-light.svg";
+// Dark
+import HomeDark from "../../../assets/images/account/home-dark.svg";
+import WorkDark from "../../../assets/images/account/work-dark.svg";
+import OtherDark from "../../../assets/images/account/other-dark.svg";
 
-const ChooseAddress = ({ show, handleClose, handleSelectAddress }) => {
+import useThemeMode from '../../../hooks/useThemeMode';
+
+const ChooseAddress = ({ show, handleClose, handleSelectAddress, manageAddressList }) => {
+
+    const ThemeMode = useThemeMode();
 
     const [selectedId, setSelectedId] = useState(null);
 
     const handleSelect = (i) => {
-        setSelectedId(i.id)
+        // setSelectedId(i.id)
         handleSelectAddress(i);
         handleClose();
     };
@@ -72,7 +80,7 @@ const ChooseAddress = ({ show, handleClose, handleSelectAddress }) => {
                     </div> */}
 
                     {
-                        AddressData?.map((i, index) => {
+                        manageAddressList?.map((i, index) => {
                             return (
                                 <div
                                     key={index}
@@ -81,13 +89,16 @@ const ChooseAddress = ({ show, handleClose, handleSelectAddress }) => {
                                     onClick={() => handleSelect(i)}
                                 >
                                     <div className='title d-flex align-items-center'>
-                                        <img src={i.image} alt="" className='img-fluid me-3' draggable={false} />
+                                        {/* <img src={i.image} alt="" className='img-fluid me-3' draggable={false} /> */}
+                                        <img src={i?.address_type === 'Home' ? ThemeMode ? HomeLight : HomeDark : i?.address_type === 'Work' ? ThemeMode ? WorkLight : WorkDark : ThemeMode ? OtherLight : OtherDark} alt="" className='img-fluid me-3' draggable={false} />
 
-                                        {i.type}
+
+                                        {i.address_type}
                                     </div>
 
                                     <p>
-                                        {i.address}
+                                        {/* {i.address} */}
+                                        {i?.address_line_1}, {i?.city}, {i?.state}, {i?.country} - {i?.postal_code}
                                     </p>
                                 </div>
                             )

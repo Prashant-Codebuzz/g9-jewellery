@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 // Css
@@ -20,20 +20,120 @@ import ProductJewelleryDark from "../../assets/images/header/product-jewellery-d
 
 import useThemeMode from '../../hooks/useThemeMode';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { reqtoGetProfile } from '../../redux-Toolkit/services/AccountServices';
+import { getNameInitials } from '../../utils';
+import { toast } from 'react-toastify';
+import { reqtoGetCart } from '../../redux-Toolkit/services/CartServices';
+import { reqtoGetOfferbar } from '../../redux-Toolkit/services/HomeServices';
 
+import Select from "react-select";
 
-const Header = () => {
+import { CurrencyContext } from '../../context/CurrencyContext';
+import { currencyData } from '../../constants/data';
+import { SelectDropdownIndicator } from '../react-select/ReactSelect';
+
+const Header = ({ categoryList, subCategoryList }) => {
 
     const ThemeMode = useThemeMode();
+
+    // Currency
+    const { currency, handleCurrency } = useContext(CurrencyContext);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const token = localStorage.getItem("g9jewellery-user-token");
+
+    const { userToken } = useSelector((state) => state.UserAuth);
+    const { cartList } = useSelector((state) => state.Cart);
+    const { offerbarList } = useSelector((state) => state.Home);
+
+    const userAccount = useSelector((state) => state.UserAccount);
+    const { userProfile } = userAccount;
+
+    const [searching, setSearching] = useState("");
+
+    const handleSearching = (e) => {
+        e.preventDefault();
+
+        console.log("Header Searching :-", searching);
+
+        navigate(`/product?search=${searching}`);
+
+        setSearching('');
+    }
+
+    const handleCart = () => {
+        if (userToken) {
+            navigate('/cart');
+        } else {
+            toast.warn("Please login to Cart.");
+            navigate('/');
+        }
+    };
+
+    // GetOfferbar 
+    const GetOfferbar = async () => {
+        await dispatch(reqtoGetOfferbar());
+    }
+
+    // Profile 
+    const GetProfile = async () => {
+        await dispatch(reqtoGetProfile());
+    }
+
+    // Cart 
+    const GetCart = async (currency) => {
+        await dispatch(reqtoGetCart(currency));
+    }
+
+
+    useEffect(() => {
+        GetOfferbar();
+    }, []);
+
+    useEffect(() => {
+        if (userToken) {
+            GetProfile();
+        }
+    }, [userToken]);
+
+
+    useEffect(() => {
+        if (userToken && currency) {
+            GetCart(currency);
+        }
+
+        const handleCartUpdate = () => {
+            if (userToken && currency) {
+                GetCart(currency);
+            }
+        }
+
+        window.addEventListener("cartUpdated", handleCartUpdate);
+        return () => window.removeEventListener("cartUpdated", handleCartUpdate);
+    }, [userToken, currency]);
+
 
     return (
         <>
 
             {/* ------ Top-bar Start ------ */}
             <div className="top_bar">
-                <p className="mb-0 text-center">
-                    The Fall Sale at G9 Jewellery | <span>25% Off Ring Settings & Bands</span>
-                </p>
+                <div className='offer d-flex align-items-center'>
+                    {
+                        offerbarList?.map((i, index) => {
+                            return (
+                                <p className="mb-0 text-center" key={index}>
+                                    {i?.text}
+                                </p>
+                            )
+                        })
+                    }
+
+                    {/* <p className="mb-0 text-center">The Fall Sale at G9 Jewellery | <span>25% Off Ring Settings & Bands</span></p> */}
+                </div>
             </div>
             {/* ------ Top-bar End ------ */}
 
@@ -66,8 +166,8 @@ const Header = () => {
                                     </div>
                                     <div className="offcanvas-body align-items-center">
 
-                                        <form className="me-auto d-none d-lg-flex" role="search">
-                                            <input type="text" placeholder="Search Product..." required />
+                                        <form className="me-auto d-none d-lg-flex" role="search" onSubmit={handleSearching}>
+                                            <input type="text" placeholder="Search Product..." value={searching} onChange={(e) => setSearching(e.target.value)} required />
 
                                             <button type="submit" className="search_btn">
                                                 Search
@@ -76,31 +176,87 @@ const Header = () => {
 
                                         <div className='accounts ms-auto d-none d-lg-block d-lg-flex align-items-lg-center'>
                                             <div className=''>
-                                                <Link to="/cart" className='d-flex align-items-center cart' >
+                                                <Link
+                                                    // to={"/cart"}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleCart();
+                                                    }}
+                                                    className='d-flex align-items-center cart'
+                                                >
                                                     <img src={ThemeMode ? CartLight : CartDark} alt="" className='img-fluid' draggable={false} />
 
                                                     <span className=''></span>
 
                                                     <div className="quantity">
-                                                        $138.00
+                                                        {currency ? currencyData?.find((i) => i?.value === currency)?.symbol : '₹'}
+                                                        {Number(cartList?.Total || 0)}
                                                     </div>
                                                 </Link>
                                             </div>
 
                                             <div className='mx-4'>
-                                                <Link className='d-flex align-items-center cart'>
+                                                {/* <Link className='d-flex align-items-center cart'>
                                                     <div className="quantity me-3">
                                                         Currency
                                                     </div>
 
                                                     <img src={ThemeMode ? DropdownLight : DropdownDark} alt="" className='img-fluid' draggable={false} />
-                                                </Link>
+                                                </Link> */}
+
+                                                <Select
+                                                    options={currencyData}
+                                                    value={currency ? currencyData?.find((i) => i?.value === currency) : null}
+                                                    onChange={(e) => {
+                                                        handleCurrency(e ? e.value : '');
+                                                    }}
+                                                    placeholder="Currency"
+                                                    classNamePrefix="form-currency"
+                                                    components={{ DropdownIndicator: SelectDropdownIndicator }}
+                                                    isSearchable={false}
+                                                    formatOptionLabel={(option) => (
+                                                        <div className='d-flex align-items-center gap-2 '>
+                                                            <span>{option.symbol}</span>
+                                                            <span>{option.label}</span>
+                                                        </div>
+                                                    )}
+                                                />
                                             </div>
-                                            <div className=''>
-                                                <Link to="/account">
-                                                    <img src={ThemeMode ? UserLight : UserDark} alt="" className='img-fluid' draggable={false} />
-                                                </Link>
-                                            </div>
+
+                                            {
+                                                userToken ? (
+                                                    <div className='account_profile d-flex align-items-center'>
+                                                        <div className='image'>
+                                                            {
+                                                                userProfile?.profile ? (
+                                                                    <img src={userProfile?.profile} alt="" className='img-fluid user_img' draggable={false} />
+                                                                ) : (
+                                                                    <div className="name_initials">
+                                                                        <span>{getNameInitials(userProfile?.name)}</span>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </div>
+                                                        <div className='info'>
+                                                            <div className="name">Hello, {userProfile?.name || ""}</div>
+                                                            <div
+                                                                className='menu d-flex align-items-center'
+                                                                onClick={() => navigate("/account")}
+                                                            >
+                                                                Account & Orders
+                                                                <img src={ThemeMode ? DropdownLight : DropdownDark} alt="" className='img-cluid ms-2' draggable={false} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className=''>
+                                                        <Link to={"/"}>
+                                                            <img src={ThemeMode ? UserLight : UserDark} alt="" className='img-fluid' draggable={false} />
+                                                        </Link>
+                                                    </div>
+                                                )
+                                            }
+
                                         </div>
 
                                         <ul className="navbar-nav mb-0 mb-lg-0 me-auto d-none">
@@ -141,7 +297,7 @@ const Header = () => {
                             </div>
                         </nav>
                     </div>
-                </div>
+                </div >
                 {/* <div className='second d-none d-lg-block'>
                     <div className="pd-x">
                         <nav className="navbar navbar-expand-lg">
@@ -202,7 +358,7 @@ const Header = () => {
                 </div> */}
 
 
-                <div className='second d-none d-lg-block'>
+                <div className='second d-none d-lg-block' >
                     <div className="">
                         <nav className="navbar navbar-expand-lg pd-x">
                             <div className="container-fluid d-block p-0">
@@ -229,30 +385,70 @@ const Header = () => {
                                                 <div className="pd-x">
                                                     <div className="row">
                                                         <div className="col-lg-3">
-                                                            <h3 className='mb-0'>Men’s Jewellery</h3>
+                                                            <h3 className='mb-0'>
+                                                                {categoryList?.find((i) => i.name === "Men's")?.name && "Men’s Jewellery"}
+                                                            </h3>
 
                                                             <ul>
-                                                                <li><Link to="/product">Rings</Link></li>
-                                                                <li><Link to="/product">Bracelets</Link></li>
+                                                                {/* <li><Link to="/product">Rings</Link></li>
+                                                                <li><Link to="/product">Bracelets</Link></li> */}
+
+                                                                {
+                                                                    // console.log(subCategoryList?.filter((i) => i.categoryId === 8))
+
+                                                                    subCategoryList
+                                                                        ?.filter((i) => i.categoryId === 8)
+                                                                        ?.map((i, index) => {
+                                                                            return (
+                                                                                <li key={index}><Link to={`/product/${i.categoryId}/${i.id}`}>{i?.name}</Link></li>
+                                                                            )
+                                                                        })
+                                                                }
                                                             </ul>
                                                         </div>
                                                         <div className="col-lg-3">
-                                                            <h3 className='mb-0'>Women’s Jewellery</h3>
+                                                            <h3 className='mb-0'>
+                                                                {categoryList?.find((i) => i.name === "Women's")?.name && "Women’s Jewellery"}
+                                                            </h3>
 
                                                             <ul>
-                                                                <li><Link to="/product">Rings</Link></li>
+                                                                {/* <li><Link to="/product">Rings</Link></li>
                                                                 <li><Link to="/product">Bracelets</Link></li>
                                                                 <li><Link to="/product">Necklaces</Link></li>
                                                                 <li><Link to="/product">Earrings</Link></li>
-                                                                <li><Link to="/product">Chains</Link></li>
+                                                                <li><Link to="/product">Chains</Link></li> */}
+
+                                                                {
+                                                                    subCategoryList
+                                                                        ?.filter((i) => i.categoryId === 9
+                                                                        )
+                                                                        ?.map((i, index) => {
+                                                                            return (
+                                                                                <li key={index}><Link to={`/product/${i.categoryId}/${i.id}`}>{i?.name}</Link></li>
+                                                                            )
+                                                                        })
+                                                                }
                                                             </ul>
                                                         </div>
                                                         <div className="col-lg-3">
-                                                            <h3 className='mb-0'>Accessories</h3>
+                                                            <h3 className='mb-0'>
+                                                                {categoryList?.find((i) => i.name === "Accessories")?.name && "Accessories"}
+                                                            </h3>
 
                                                             <ul>
-                                                                <li><Link to="/product">Watches</Link></li>
-                                                                <li><Link to="/product">Diamonds</Link></li>
+                                                                {/* <li><Link to="/product">Watches</Link></li>
+                                                                <li><Link to="/product">Diamonds</Link></li> */}
+
+                                                                {
+                                                                    subCategoryList
+                                                                        ?.filter((i) => i.categoryId === 10
+                                                                        )
+                                                                        ?.map((i, index) => {
+                                                                            return (
+                                                                                <li key={index}><Link to={`/product/${i.categoryId}/${i.id}`}>{i?.name}</Link></li>
+                                                                            )
+                                                                        })
+                                                                }
                                                             </ul>
                                                         </div>
                                                         <div className="col-lg-3">
@@ -281,10 +477,10 @@ const Header = () => {
                                     </ul>
 
                                     <div className='support me-5'>
-                                        <Link className='' to="tel:+1234657890">
-                                            +123 465 7890
+                                        <Link className='' to="tel:+917285858542">
+                                            +91 7285 858 542
                                         </Link>
-                                        <span>Call or Text 24/7</span>
+                                        <span>Call or WhatsApp 24/7</span>
                                     </div>
 
                                     <button type='button' className='main_btn ask_price'>
@@ -296,7 +492,7 @@ const Header = () => {
                     </div>
                 </div>
 
-            </header>
+            </header >
             {/* ------ Header End ------ */}
 
 

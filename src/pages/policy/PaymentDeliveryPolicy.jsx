@@ -1,7 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { reqtoGetPolicy } from '../../redux-Toolkit/services/PolicyServices';
+
+import DOMPurify from 'dompurify';
 
 const PaymentDeliveryPolicy = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const home = useSelector((state) => state.Policy);
+    const { loader, policyList } = home;
+
+    console.log(policyList);
+
+    const GetPolicy = async () => {
+        await dispatch(reqtoGetPolicy());
+    }
+
+    useEffect(() => {
+        GetPolicy();
+    }, []);
+
+    const policy = policyList?.find((i) => i.name === "Payment & Delivery Policy");
+
     return (
         <>
 
@@ -9,7 +33,7 @@ const PaymentDeliveryPolicy = () => {
             <div className="policy pd-x">
                 <h4>Payment & Delivery Policy</h4>
 
-                <p className='black mb-40'>
+                {/* <p className='black mb-40'>
                     At G9 Jewellery, we aim to provide a secure, transparent, and reliable shopping experience. This Payment & Delivery Policy explains how payments are processed and how we deliver jewellery and diamond products to our valued customers.
                 </p>
 
@@ -66,8 +90,13 @@ const PaymentDeliveryPolicy = () => {
 
                 <p className='black mb-10'>4. Contact Us</p>
                 <p>For payment or delivery-related queries, please reach us at:</p>
-                <p className='mb-10'>Email: <Link to="mailto:support@g9jewellery.com">support@g9jewellery.com</Link></p>
-                <p className='mb-0'>Phone: <Link to="tel:+1234657890">+123 465 7890</Link></p>
+                <p className='mb-10'>Email: <Link to="mailto:g9jewellerys@gmail.com">g9jewellerys@gmail.com</Link></p>
+                <p className='mb-0'>Phone: <Link to="tel:+917285858542">+91 7285 858 542</Link></p> */}
+
+                <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(policy?.description) }}
+                />
+
             </div>
             {/* ------ Payment-Delivery-Policy End ------ */}
 

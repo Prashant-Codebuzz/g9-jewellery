@@ -2,6 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { otpAuthHeaders, Axios, authHeaders } from "../helper/Axios";
 import { apiendpoints } from "../../constants";
 import { toast } from "react-toastify";
+import { signOut } from "../slices/AccountSlice";
+import { clearCart } from "../slices/CartSlice";
+import { unauthorized } from "../helper/Unauthorized";
 
 // reqtoSignUp
 export const reqtoSignUp = createAsyncThunk("reqtoSignUp", async (data) => {
@@ -27,23 +30,69 @@ export const reqtoSignUp = createAsyncThunk("reqtoSignUp", async (data) => {
 });
 
 
-// reqtoOtpMethod
-export const reqtoOtpMethod = createAsyncThunk("reqtoOtpMethod", async (data) => {
+// reqtoSignInOrSignUpWithGoogle
+export const reqtoSignInOrSignUpWithGoogle = createAsyncThunk("reqtoSignInOrSignUpWithGoogle", async (data) => {
     try {
-        // const res = await Axios.post(apiendpoints.otpMethod, data);
-        // console.log("reqtoOtpMethod--> Services", res);
+        const res = await Axios.post(apiendpoints.signInOrSignUpWithGoogle, data);
+        console.log("reqtoSignInOrSignUpWithGoogle-->", res);
 
-        // if (res.data?.status) {
-            // toast.success(res.data?.message);
+        if (res.data?.status) {
+            toast.success(res.data?.message);
+
+            return res.data;
+        } else {
+            toast.error(res.data?.message)
+        }
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+
+// reqtoSignUpOtpMethod
+export const reqtoSignUpOtpMethod = createAsyncThunk("reqtoSignUpOtpMethod", async (data) => {
+    try {
+        const res = await Axios.post(apiendpoints.otpMethod, data);
+        console.log("reqtoSignUpOtpMethod--> Services", res);
+
+        if (res.data?.status) {
+            toast.success(res.data?.message);
 
             return {
                 status: res.data?.status,
 
                 type: data.type,
+                email: data.email,
+                phone: data.Mobile_number,
             };
-        // } else {
-        //     toast.error(res.data?.message)
-        // }
+        } else {
+            toast.error(res.data?.message)
+        }
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+
+// reqtoOtpMethod
+export const reqtoOtpMethod = createAsyncThunk("reqtoOtpMethod", async (data) => {
+    try {
+        const res = await Axios.post(apiendpoints.otpMethod, data);
+        console.log("reqtoOtpMethod--> Services", res);
+
+        if (res.data?.status) {
+            toast.success(res.data?.message);
+
+            return {
+                status: res.data?.status,
+
+                type: data.type,
+                email: data.email,
+                phone: data.Mobile_number,
+            };
+        } else {
+            toast.error(res.data?.message)
+        }
     } catch (err) {
         console.error(err);
     }
@@ -69,6 +118,29 @@ export const reqtoOtpVerification = createAsyncThunk("reqtoOtpVerification", asy
 });
 
 
+// reqtoResendOtp
+export const reqtoResendOtp = createAsyncThunk("reqtoResendOtp", async (data) => {
+    try {
+        const res = await Axios.post(apiendpoints.resendOtp, data);
+        console.log("reqtoResendOtp--> Services", res);
+
+        if (res.data?.status) {
+            toast.success(res.data?.message);
+
+            return {
+                status: res.data?.status,
+
+                // type: data.type,
+            };
+        } else {
+            toast.error(res.data?.message)
+        }
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+
 // reqtoAddressDetail
 export const reqtoAddressDetail = createAsyncThunk("reqtoAddressDetail", async (data) => {
     try {
@@ -84,6 +156,10 @@ export const reqtoAddressDetail = createAsyncThunk("reqtoAddressDetail", async (
         }
     } catch (err) {
         console.error(err);
+
+        if (err?.response?.status === 401) {
+            unauthorized(err, dispatch);
+        }
     }
 });
 
@@ -114,7 +190,7 @@ export const reqtoForgetPassword = createAsyncThunk("reqtoForgetPassword", async
         console.log("reqtoForgetPassword--> Services", res);
 
         if (res.data?.status) {
-            toast.success(res.data?.message);
+            // toast.success(res.data?.message);
 
             return {
                 status: res.data?.status,
@@ -146,23 +222,33 @@ export const reqtoChangePassword = createAsyncThunk("reqtoChangePassword", async
         }
     } catch (err) {
         console.error(err);
+
+        if (err?.response?.status === 401) {
+            unauthorized(err, dispatch);
+        }
     }
 });
 
 
-// reqtoSignOut
-export const reqtoSignOut = createAsyncThunk("reqtoSignOut", async () => {
+// reqtoSignOut 
+export const reqtoSignOut = createAsyncThunk("reqtoSignOut", async (_, { dispatch }) => {
     try {
         const res = await Axios.get(apiendpoints.signOut, authHeaders("application/json"))
 
         if (res.data?.status) {
             toast.success(res.data?.message);
 
+            dispatch(signOut());
+            dispatch(clearCart());
             return res.data;
         } else {
             toast.error(res.data?.message)
         }
     } catch (err) {
         console.error(err);
+
+        if (err?.response?.status === 401) {
+            unauthorized(err, dispatch);
+        }
     }
 })

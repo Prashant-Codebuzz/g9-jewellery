@@ -96,7 +96,7 @@ const Address = () => {
 
                             <div className="details">
 
-                                <div className="address">
+                                {/* <div className="address">
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div className='type d-flex align-items-center'>
                                             <img src={ThemeMode ? HomeLight : HomeDark} alt="" className='img-fluid' draggable={false} />
@@ -186,91 +186,97 @@ const Address = () => {
                                         789, Light House, Udhana Darwaja <br />
                                         Surat, Gujarat, India - 395006
                                     </p>
-                                </div>
+                                </div> */}
 
 
-                                {/* {
-                                    manageAddressList?.map((i, index) => {
-                                        return (
-                                            <React.Fragment key={i?.id}>
-                                                <div className="address">
-                                                    <div className='d-flex align-items-center justify-content-between'>
-                                                        <div className='type d-flex align-items-center'>
-                                                            <img src={i?.address_type === 'Home' ? HomeLight : i?.address_type === 'Work' ? WorkLight : OtherLight} alt="" className='img-fluid' draggable={false} />
+                                {
+                                    manageAddressList?.length > 0 ? (
+                                        manageAddressList?.map((i, index) => {
+                                            return (
+                                                <React.Fragment key={i?.id}>
+                                                    <div className="address">
+                                                        <div className='d-flex align-items-center justify-content-between'>
+                                                            <div className='type d-flex align-items-center'>
+                                                                {/* <img src={i?.address_type === 'Home' ? HomeLight : i?.address_type === 'Work' ? WorkLight : OtherLight} alt="" className='img-fluid' draggable={false} /> */}
+                                                                <img src={i?.address_type === 'Home' ? ThemeMode ? HomeLight : HomeDark : i?.address_type === 'Work' ? ThemeMode ? WorkLight : WorkDark : ThemeMode ? OtherLight : OtherDark} alt="" className='img-fluid' draggable={false} />
 
-                                                            <span className='mx-3'>
-                                                                {i?.address_type}
-                                                            </span>
+                                                                <span className='mx-3'>
+                                                                    {i?.address_type}
+                                                                </span>
 
-                                                            {
-                                                                i?.primary === 1 &&
-                                                                <div className='status delivered'>
-                                                                    Primary
-                                                                </div>
-                                                            }
-                                                        </div>
-
-                                                        <div>
-                                                            <button type='button' className='menu_btn' data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <img src={MenuLight} alt="" className='img-fluid' draggable={false} />
-                                                            </button>
-                                                            <ul className="dropdown-menu dropdown-menu-end">
                                                                 {
-                                                                    i?.primary === 0 &&
+                                                                    i?.primary === 1 &&
+                                                                    <div className='status delivered'>
+                                                                        Primary
+                                                                    </div>
+                                                                }
+                                                            </div>
+
+                                                            <div>
+                                                                <button type='button' className='menu_btn' data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <img src={ThemeMode ? MenuLight : MenuDark} alt="" className='img-fluid' draggable={false} />
+                                                                </button>
+                                                                <ul className="dropdown-menu dropdown-menu-end">
+                                                                    {
+                                                                        i?.primary === 0 &&
+                                                                        <li>
+                                                                            <button
+                                                                                type='button'
+                                                                                className="dropdown-item"
+                                                                                onClick={() => {
+                                                                                    setModalShow({ ...modalShow, primary: true })
+                                                                                    setAddressId(i?.id)
+                                                                                }}
+                                                                            >
+                                                                                Set As Primary
+                                                                            </button>
+                                                                        </li>
+                                                                    }
+
                                                                     <li>
                                                                         <button
                                                                             type='button'
                                                                             className="dropdown-item"
                                                                             onClick={() => {
-                                                                                setModalShow({ ...modalShow, primary: true })
+                                                                                navigate(`/address/edit/${i?.id}`)
+                                                                                dispatch(editManageAddress(i))
+                                                                            }}
+                                                                        >
+                                                                            Edit
+                                                                        </button>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button
+                                                                            type='button'
+                                                                            className="dropdown-item"
+                                                                            onClick={() => {
+                                                                                setModalShow({ ...modalShow, delete: true })
                                                                                 setAddressId(i?.id)
                                                                             }}
                                                                         >
-                                                                            Set As Primary
+                                                                            Delete
                                                                         </button>
                                                                     </li>
-                                                                }
-
-                                                                <li>
-                                                                    <button
-                                                                        type='button'
-                                                                        className="dropdown-item"
-                                                                        onClick={() => {
-                                                                            navigate(`/address/edit/${i?.id}`)
-                                                                            dispatch(editManageAddress(i))
-                                                                        }}
-                                                                    >
-                                                                        Edit
-                                                                    </button>
-                                                                </li>
-                                                                <li>
-                                                                    <button
-                                                                        type='button'
-                                                                        className="dropdown-item"
-                                                                        onClick={() => {
-                                                                            setModalShow({ ...modalShow, delete: true })
-                                                                            setAddressId(i?.id)
-                                                                        }}
-                                                                    >
-                                                                        Delete
-                                                                    </button>
-                                                                </li>
-                                                            </ul>
-
+                                                                </ul>
+                                                            </div>
                                                         </div>
+
+                                                        <p className='mb-0'>
+                                                            {i?.address_line_1} <br />
+                                                            {i?.city}, {i?.state}, {i?.country} - {i?.postal_code}
+                                                        </p>
                                                     </div>
 
-                                                    <p className='mb-0'>
-                                                        {i?.address_line_1} <br />
-                                                        {i?.city}, {i?.state}, {i?.country} - {i?.postal_code}
-                                                    </p>
-                                                </div>
-
-                                                {index !== manageAddressList.length - 1 && <div className="line"></div>}
-                                            </React.Fragment>
-                                        )
-                                    })
-                                } */}
+                                                    {index !== manageAddressList.length - 1 && <div className="line"></div>}
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    ) : (
+                                        <div className='order_box text-center'>
+                                            <div className="order_detail "><span className='price'>You have not added any address yet. Please add one.</span></div>
+                                        </div>
+                                    )
+                                }
 
                             </div>
 

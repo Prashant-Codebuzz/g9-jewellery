@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { reqtoAddressDetail, reqtoChangePassword, reqtoForgetPassword, reqtoOtpMethod, reqtoOtpVerification, reqtoSignIn, reqtoSignOut, reqtoSignUp } from "../services/AuthServices";
+import { reqtoAddressDetail, reqtoChangePassword, reqtoForgetPassword, reqtoOtpMethod, reqtoOtpVerification, reqtoResendOtp, reqtoSignIn, reqtoSignInOrSignUpWithGoogle, reqtoSignOut, reqtoSignUp, reqtoSignUpOtpMethod } from "../services/AuthServices";
+
+const checkToken = localStorage.getItem("g9jewellery-user-token");
+const googleLogin = localStorage.getItem("g9jewellery-google-login");
 
 const initialState = {
     loader: false,
+
+    signInNUpWithGoogleLoader: false,
+    googleLogin: googleLogin || null,
+
+    userToken: checkToken || null,
 
     email: '',
     phone: '',
@@ -18,7 +26,13 @@ const AuthSlice = createSlice({
     reducers: {
         signUpResendOtp: (state) => {
             state.type = "";
-        }
+        },
+        unauthorizedUser: (state) => {
+            localStorage.removeItem("g9jewellery-user-token");
+            localStorage.removeItem("g9jewellery-google-login");
+            state.userToken = null;
+            state.googleLogin = null;
+        },
     },
     extraReducers: (builder) => {
         // reqtoSignUp
@@ -26,15 +40,58 @@ const AuthSlice = createSlice({
             state.loader = true;
         });
         builder.addCase(reqtoSignUp.fulfilled, (state, action) => {
-            console.log("reqtoSignUp--> fulfiled", action); 
+            console.log("reqtoSignUp--> fulfiled", action);
 
             state.loader = false;
 
             state.email = action.payload?.email;
             state.phone = action.payload?.phone;
             state.pageType = "sign-up";
+
+            state.type = '';
         });
         builder.addCase(reqtoSignUp.rejected, (state, action) => {
+            state.loader = false;
+        });
+
+
+        // reqtoSignInOrSignUpWithGoogle
+        builder.addCase(reqtoSignInOrSignUpWithGoogle.pending, (state) => {
+            state.signInNUpWithGoogleLoader = true;
+        });
+        builder.addCase(reqtoSignInOrSignUpWithGoogle.fulfilled, (state, action) => {
+            console.log("reqtoSignInOrSignUpWithGoogle--> fulfiled", action);
+
+            const token = action.payload?.data?.authentication?.accessToken;
+
+            state.signInNUpWithGoogleLoader = false;
+
+            if (token) {
+                localStorage.setItem("g9jewellery-user-token", token);
+                localStorage.setItem("g9jewellery-google-login", true);
+                state.userToken = token;
+                state.googleLogin = true;
+            }
+        });
+        builder.addCase(reqtoSignInOrSignUpWithGoogle.rejected, (state, action) => {
+            state.signInNUpWithGoogleLoader = false;
+        });
+
+
+        // reqtoSignUpOtpMethod
+        builder.addCase(reqtoSignUpOtpMethod.pending, (state) => {
+            state.loader = true;
+        });
+        builder.addCase(reqtoSignUpOtpMethod.fulfilled, (state, action) => {
+            console.log("reqtoSignUp--> fulfiled", action);
+
+            state.loader = false;
+
+            state.type = action.payload?.type;
+            state.email = action.payload?.email;
+            state.phone = action.payload?.phone;
+        });
+        builder.addCase(reqtoSignUpOtpMethod.rejected, (state, action) => {
             state.loader = false;
         });
 
@@ -49,6 +106,8 @@ const AuthSlice = createSlice({
             state.loader = false;
 
             state.type = action.payload?.type;
+            state.email = action.payload?.email;
+            state.phone = action.payload?.phone;
         });
         builder.addCase(reqtoOtpMethod.rejected, (state, action) => {
             state.loader = false;
@@ -62,20 +121,42 @@ const AuthSlice = createSlice({
         builder.addCase(reqtoOtpVerification.fulfilled, (state, action) => {
             console.log("reqtoOtpVerification--> fulfiled", action);
 
-            const token = action.payload?.authentication?.accessToken;
+            const token = action.payload?.data?.authentication?.accessToken;
 
             state.loader = false;
 
-            // if (token) {
-                localStorage.setItem("otp-token", token);
+            if (token) {
+                // localStorage.setItem("otp-token", token);
+                localStorage.setItem("g9jewellery-user-token", token);
+
+                if (action.payload?.data?.type === "google") {
+                    localStorage.setItem("g9jewellery-google-login", true);
+                    state.googleLogin = true;
+                }
+
+                state.userToken = token;
                 state.email = '';
                 state.phone = '';
                 state.type = '';
                 state.pageType = '';
-            // }
+            }
         });
         builder.addCase(reqtoOtpVerification.rejected, (state, action) => {
             state.loader = false;
+        });
+
+
+        // reqtoResendOtp
+        builder.addCase(reqtoResendOtp.pending, (state) => {
+            // state.loader = true;
+        });
+        builder.addCase(reqtoResendOtp.fulfilled, (state, action) => {
+            console.log("reqtoResendOtp--> fulfiled", action);
+
+            // state.loader = false;
+        });
+        builder.addCase(reqtoResendOtp.rejected, (state, action) => {
+            // state.loader = false;
         });
 
 
@@ -89,7 +170,8 @@ const AuthSlice = createSlice({
             state.loader = false;
 
             if (action.payload?.status) {
-                localStorage.removeItem("otp-token");
+                // localStorage.removeItem("otp-token");
+                localStorage.removeItem("g9jewellery-user-token");
             }
         });
         builder.addCase(reqtoAddressDetail.rejected, (state, action) => {
@@ -110,6 +192,7 @@ const AuthSlice = createSlice({
 
             if (token) {
                 localStorage.setItem("g9jewellery-user-token", token);
+                state.userToken = token;
             }
         });
         builder.addCase(reqtoSignIn.rejected, (state, action) => {
@@ -126,11 +209,11 @@ const AuthSlice = createSlice({
 
             state.loader = false;
 
-            state.email = action.payload?.email;
-            state.phone = action.payload?.phone;
+            // state.email = action.payload?.email;
+            // state.phone = action.payload?.phone;
             state.pageType = "forgot-password";
 
-            state.type = action.payload?.email.includes("@") ? "email" : "select";
+            // state.type = action.payload?.email.includes("@") ? "email" : "select";
 
         });
         builder.addCase(reqtoForgetPassword.rejected, (state, action) => {
@@ -148,7 +231,8 @@ const AuthSlice = createSlice({
             state.loader = false;
 
             if (action.payload?.status) {
-                localStorage.removeItem("otp-token");
+                // localStorage.removeItem("otp-token");
+                localStorage.removeItem("g9jewellery-user-token");
             }
         });
         builder.addCase(reqtoChangePassword.rejected, (state, action) => {
@@ -167,6 +251,9 @@ const AuthSlice = createSlice({
 
             if (action.payload?.status) {
                 localStorage.removeItem("g9jewellery-user-token");
+                localStorage.removeItem("g9jewellery-google-login");
+                state.userToken = null;
+                state.googleLogin = null;
             }
         });
         builder.addCase(reqtoSignOut.rejected, (state, action) => {
@@ -176,4 +263,4 @@ const AuthSlice = createSlice({
 });
 
 export default AuthSlice.reducer;
-export const { signUpResendOtp } = AuthSlice.actions;
+export const { signUpResendOtp, unauthorizedUser } = AuthSlice.actions;

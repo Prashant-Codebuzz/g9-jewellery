@@ -1,16 +1,41 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Css
 import "./Policy.scss"
 
+import { reqtoGetPolicy } from '../../redux-Toolkit/services/PolicyServices';
+
+import DOMPurify from 'dompurify';
+
+
 const PrivacyPolicy = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const home = useSelector((state) => state.Policy);
+    const { loader, policyList } = home;
+
+    console.log(policyList);
+
+    const GetPolicy = async () => {
+        await dispatch(reqtoGetPolicy());
+    }
+
+    useEffect(() => {
+        GetPolicy();
+    }, []);
+
+    const policy = policyList?.find((i) => i.name === "Privacy Policy");
+
     return (
         <>
 
             {/* ------ Privacy-Policy Start ------ */}
             <div className="policy pd-x">
-                <h4>Privacy Policy</h4>
+                {/* <h4>Privacy Policy</h4>
 
                 <p className='black mb-10'>
                     G9 Jewellery ("we," "our," "us") values the trust you place in us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, mobile application, or purchase our products online.
@@ -84,10 +109,19 @@ const PrivacyPolicy = () => {
                 <p className='mb-60'>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated effective date.</p>
 
 
-                    <p className='black mb-10'>7. Contact Us</p>
-                    <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
-                    <p className='mb-10'>Email: <Link to="mailto:support@g9jewellery.com">support@g9jewellery.com</Link></p>
-                    <p className='mb-0'>Phone: <Link to="tel:+1234657890">+123 465 7890</Link></p>
+                <p className='black mb-10'>7. Contact Us</p>
+                <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
+                <p className='mb-10'>Email: <Link to="mailto:g9jewellerys@gmail.com">g9jewellerys@gmail.com</Link></p>
+                <p className='mb-0'>Phone: <Link to="tel:+917285858542">+91 7285 858 542</Link></p> */}
+
+
+                {/* <p>
+                    {policy?.description}
+                </p> */}
+                <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(policy?.description) }}
+                />
+
             </div>
             {/* ------ Privacy-Policy End ------ */}
 

@@ -8,7 +8,7 @@ import LogoLight from "../../assets/images/authentication/logo-light.svg";
 import LogoDark from "../../assets/images/authentication/logo-dark.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { loaders } from '../loader/Loader';
-import { reqtoOtpMethod } from '../../redux-Toolkit/services/AuthServices';
+import { reqtoOtpMethod, reqtoSignUpOtpMethod } from '../../redux-Toolkit/services/AuthServices';
 import useThemeMode from '../../hooks/useThemeMode';
 
 const initialState = {
@@ -23,6 +23,7 @@ const OtpMethod = () => {
     const navigate = useNavigate();
 
     const { loader, email, phone, type } = useSelector((state) => state.UserAuth);
+    console.log(email, phone);
 
     const [formData, setFormData] = useState(initialState);
     console.log(formData);
@@ -39,22 +40,24 @@ const OtpMethod = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let payload = { type: type === "email" && "email" || formData.type };
+        // let payload = { type: type === "email" && "email" || formData.type };
+        let payload = { type: formData.type, email: email, Mobile_number: phone };
         console.log(payload);
 
-        if (payload.type === "email") {
-            payload = { ...payload, email: email };
-        }
-        else if (payload.type === "sms" || payload.type === "whatsapp") {
-            payload = { ...payload, Mobile_number: phone };
-        }
+        // if (payload.type === "email") {
+        //     payload = { ...payload, email: email };
+        // }
+        // else if (payload.type === "sms" || payload.type === "whatsapp") {
+        //     payload = { ...payload, Mobile_number: phone };
+        // }
 
-        const res = await dispatch(reqtoOtpMethod(payload));
+        // const res = await dispatch(reqtoOtpMethod(payload));
+        const res = await dispatch(reqtoSignUpOtpMethod(payload));
         console.log("reqtoOtpMethod--> Res", res);
 
-        // if (res.payload?.status) {
-        navigate("/otp-verify");
-        // }
+        if (res.payload?.status) {
+            navigate("/otp-verify");
+        }
     }
 
     return (
@@ -85,17 +88,19 @@ const OtpMethod = () => {
                                                 className="form-check-input"
                                                 value={"email"}
                                                 onChange={handleChange}
-                                                checked={type === "email" || formData.type === "email"}
+                                                // checked={type === "email" || formData.type === "email"}
+                                                checked={formData.type === "email"}
                                                 required
-                                                disabled={
-                                                    type ?
-                                                        // type === "sms" || type === "whatsapp" ? 
-                                                        // false : 
-                                                        type !== "email" ?
-                                                            true :
-                                                            type === "select" ?
-                                                                true : false
-                                                        : false}
+                                            // disabled={
+                                            //     type ?
+                                            //         // type === "sms" || type === "whatsapp" ? 
+                                            //         // false : 
+                                            //         type !== "email" ?
+                                            //             true :
+                                            //             type === "select" ?
+                                            //                 true : false
+                                            //         : false
+                                            // }
                                             />
                                             <label className="form-check-label" htmlFor="email">
                                                 Email
@@ -111,7 +116,7 @@ const OtpMethod = () => {
                                                 onChange={handleChange}
                                                 checked={formData.type === "sms"}
                                                 required
-                                                disabled={type === "email"}
+                                            // disabled={type === "email"}
                                             />
                                             <label className="form-check-label" htmlFor="sms">
                                                 SMS
@@ -127,7 +132,7 @@ const OtpMethod = () => {
                                                 onChange={handleChange}
                                                 checked={formData.type === "whatsapp"}
                                                 required
-                                                disabled={type === "email"}
+                                            // disabled={type === "email"}
                                             />
                                             <label className="form-check-label" htmlFor="whatsapp">
                                                 WhatsApp

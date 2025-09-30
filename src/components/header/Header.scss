@@ -4,6 +4,14 @@
 .top_bar {
     padding-block: 16px;
     background-color: $black;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .offer {
+        // display: inline-flex;
+        gap: 100px;
+        animation: scrollTicker 30s linear infinite;
+    }
 
     p {
         font-family: $avenir;
@@ -13,6 +21,16 @@
 
         span {
             text-decoration: underline;
+        }
+    }
+
+    @keyframes scrollTicker {
+        0% {
+            transform: translateX(100%);
+        }
+
+        100% {
+            transform: translateX(-100%);
         }
     }
 }
@@ -26,18 +44,18 @@
 
 header {
     .top {
-        padding-block: 15px;
+        padding-block: 10px;
 
         form {
             background-color: $bg-color;
             margin-left: 80px;
             display: flex;
             align-items: center;
-            border: $border;
+            border: 1px solid $color15;
             border-radius: 6px;
             overflow: hidden;
             width: 100%;
-            max-width: 500px;
+            max-width: 420px;
 
             input {
                 background-color: $bg-color;
@@ -71,7 +89,7 @@ header {
 
         .accounts {
             a {
-                border: $border;
+                border: 1px solid $color15;
                 border-radius: 6px;
                 padding: 16px 17px;
 
@@ -86,7 +104,7 @@ header {
                 }
 
                 span {
-                    background-color: $border-color;
+                    background-color: $color15;
                     width: 1px;
                     height: 21px;
                     margin-inline: 12px;
@@ -96,12 +114,135 @@ header {
                     padding-inline: 24px;
                 }
             }
+
+            // .currency {
+            .form-currency__control {
+                background-color: $input-bg;
+                border: 1px solid $color15;
+                border-radius: 6px;
+                box-shadow: none;
+                padding: 10px 12px 10px 16px;
+                padding: 16px 17px;
+                // max-width: 100%;
+                width: 140px;
+                height: 60px;
+
+                .form-currency__value-container {
+                    font-family: $avenir;
+                    border-radius: 6px;
+                    font-weight: 500;
+                    font-size: 18px;
+                    padding: 0;
+                    padding-right: 10px;
+                    border: 0;
+
+                    .form-currency__single-value {
+                        color: $black;
+                    }
+
+                    .form-currency__placeholder {
+                        color: $placeholder-color;
+                    }
+
+                    .form-currency__placeholder,
+                    .form-currency__input-container {
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+
+                .form-currency__indicators {
+                    .form-currency__indicator-separator {
+                        display: none;
+                    }
+
+                    .form-currency__dropdown-indicator {
+                        padding: 0;
+                    }
+                }
+            }
+
+            .form-currency__menu {
+                background-color: var(--color6);
+                // border: $border;
+                border-radius: 6px;
+                z-index: 10;
+
+                .form-currency__option {
+                    font-family: $avenir;
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: $black;
+
+                    &--is-focused {
+                        background-color: $white1;
+                        color: $black1;
+                    }
+
+                    &--is-selected {
+                        background-color: $main-btn-color;
+                        color: $theme-toggle-hover;
+                    }
+                }
+            }
+
+            // }
+
+            .account_profile {
+                .image {
+                    .user_img {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .name_initials {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: $color12;
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+
+                        span {
+                            font-family: $avenir;
+                            font-weight: 700;
+                            font-size: 23px;
+                            color: $color7;
+                        }
+                    }
+                }
+
+
+                .info {
+                    margin-left: 15px;
+
+                    .name,
+                    .menu {
+                        font-family: $avenir;
+                        font-weight: 400;
+                        color: $black;
+                    }
+
+                    .name {
+                        font-size: 20px;
+                    }
+
+                    .menu {
+                        font-size: 15px;
+                        cursor: pointer;
+                    }
+                }
+
+            }
         }
 
     }
 
     .second {
-        padding-block: 12px;
+        padding-block: 10px;
         background-color: $color1;
 
         .logo {

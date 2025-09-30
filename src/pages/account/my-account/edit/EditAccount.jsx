@@ -1,68 +1,99 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { reqtoEditManageAddress } from '../../../../redux-Toolkit/services/AccountServices';
-import { loaders } from '../../../../components/loader/Loader';
-import { editManageAddress } from '../../../../redux-Toolkit/slices/AccountSlice';
 
 // Css
 // import "./CreateAddress.scss"
 
+// Image
+// Light
+import EditProfileSelectLight from "../../../../assets/images/account/edit-profile-select-light.svg";
+// Dark
+import EditProfileSelectDark from "../../../../assets/images/account/edit-profile-select-dark.svg";
+
+import { reqtoEditManageAddress, reqtoEditProfile } from '../../../../redux-Toolkit/services/AccountServices';
+import { loaders } from '../../../../components/loader/Loader';
+import { editUserProfile } from '../../../../redux-Toolkit/slices/AccountSlice';
+import useThemeMode from '../../../../hooks/useThemeMode';
+import { getNameInitials } from '../../../../utils';
+import { toast } from 'react-toastify';
+
+
 const initialState = {
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    state: "",
-    country: "",
-    postal_code: "",
-    address_type: "",
+    name: "",
+    email: "",
+    Mobile_number: "",
+    profile: null,
 }
 
 const EditAccount = () => {
 
-    const navigate = useNavigate();
+    const ThemeMode = useThemeMode();
+
     const { id } = useParams();
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    // const userAccount = useSelector((state) => state.UserAccount);
-    // const { manageAddressLoader, manageAddressEdit } = userAccount;
 
-    // const [formData, setFormData] = useState(initialState);
+    const userAccount = useSelector((state) => state.UserAccount);
+    const { userProfileLoader, userProfileEdit } = userAccount;
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
+    console.log(userProfileEdit);
 
-    //     setFormData((prev) => ({
-    //         ...prev,
-    //         [name]: value,
-    //     }));
-    // }
+
+    const [formData, setFormData] = useState(initialState);
+    const [profileImage, setProfileImage] = useState(null);
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+
+        if (files && files[0]) {
+            const file = files[0];
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB
+                toast.error(`File size exceeds 5MB limit`);
+                return;
+            }
+
+            setFormData((prev) => ({
+                ...prev,
+                [name]: file,
+            }));
+
+            setProfileImage(URL.createObjectURL(files[0]));
+
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: files ? files[0] : value,
+            }));
+        }
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        //     const res = await dispatch(reqtoEditManageAddress({ id, data: formData }));
+        const res = await dispatch(reqtoEditProfile(formData));
 
-        //     if (res.payload?.status) {
-        //         dispatch(editManageAddress());
-        navigate("/account");
-        //     }
+        if (res.payload?.status) {
+            dispatch(editUserProfile());
+            navigate("/account");
+        }
     }
 
-    // useEffect(() => {
-    //     if (manageAddressEdit) {
-    //         setFormData({
-    //             address_line_1: manageAddressEdit?.address_line_1,
-    //             address_line_2: manageAddressEdit?.address_line_2,
-    //             city: manageAddressEdit?.city,
-    //             state: manageAddressEdit?.state,
-    //             country: manageAddressEdit?.country,
-    //             postal_code: manageAddressEdit?.postal_code,
-    //             address_type: manageAddressEdit?.address_type,
-    //         });
-    //     }
-    // }, [manageAddressEdit]);
+    useEffect(() => {
+        if (userProfileEdit) {
+            setFormData({
+                name: userProfileEdit?.name || "",
+                email: userProfileEdit?.email || "",
+                Mobile_number: userProfileEdit?.Mobile_number || "",
+                profile: userProfileEdit?.profile || null,
+            });
+
+            setProfileImage(userProfileEdit?.profile || null);
+        }
+    }, [userProfileEdit]);
 
 
     return (
@@ -74,6 +105,32 @@ const EditAccount = () => {
 
                 <div className='address_form'>
                     <form className='row m-0' onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <div className="profile_image_container">
+                                {
+                                    profileImage ? (
+                                        <img src={profileImage} alt="Profile" className="profile_image img-fluid" draggable={false} />
+                                    ) : (
+                                        <div className="name_initials">
+                                            <span>{getNameInitials(userProfileEdit.name)}</span>
+                                        </div>
+                                    )
+                                }
+
+                                <label htmlFor="profile" className="camera">
+                                    <img src={ThemeMode ? EditProfileSelectLight : EditProfileSelectDark} alt="Upload" className='img-fluid' draggable={false} />
+                                </label>
+                            </div>
+                            <input
+                                type="file"
+                                id="profile"
+                                name="profile"
+                                className="form-control d-none"
+                                onChange={handleChange}
+                                accept="image/*"
+                            />
+                        </div>
+
                         <div className="col-lg-12 mb-4">
                             <label htmlFor="name" className='form-label'>Name *</label>
                             <div>
@@ -82,7 +139,9 @@ const EditAccount = () => {
                                     name='name'
                                     placeholder=''
                                     className='form-control'
-                                    // required
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </div>
@@ -94,28 +153,34 @@ const EditAccount = () => {
                                     name='email'
                                     placeholder=''
                                     className='form-control'
-                                    // required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </div>
                         <div className="col-lg-6">
-                            <label htmlFor="Mobile_Number" className='form-label'>Mobile Number *</label>
+                            <label htmlFor="Mobile_number" className='form-label'>Mobile Number *</label>
                             <div>
                                 <input
                                     type="text"
-                                    name='Mobile_Number'
+                                    pattern='\d*'
+                                    maxLength={10}
+                                    name='Mobile_number'
                                     placeholder=''
                                     className='form-control'
-                                    // required
+                                    value={formData.Mobile_number}
+                                    onChange={handleChange}
+                                    onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
+                                    required
                                 />
                             </div>
                         </div>
 
-                        <button type='submit' className='main_btn address_btn'>
-                            {/* {
-                                manageAddressLoader ? loaders.btn : 'SUBMIT'
-                            } */}
-                            SUBMIT
+                        <button type='submit' className='main_btn address_btn' disabled={userProfileLoader}>
+                            {
+                                userProfileLoader ? loaders.btn : 'SUBMIT'
+                            }
                         </button>
                     </form>
                 </div>
@@ -127,3 +192,8 @@ const EditAccount = () => {
 }
 
 export default EditAccount;
+
+
+
+
+

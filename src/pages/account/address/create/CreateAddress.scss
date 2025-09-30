@@ -87,6 +87,56 @@
                     cursor: pointer;
                 }
             }
+
+            // Edit Account
+            .profile_image_container {
+                position: relative;
+                background-color: $color11;
+                padding: 8px;
+                border-radius: 50%;
+                width: 155px;
+                height: 155px;
+                margin: auto;
+
+
+                .profile_image {
+                    width: 140px;
+                    height: 140px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .name_initials {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $color12;
+                    width: 140px;
+                    height: 140px;
+                    border-radius: 50%;
+
+                    span {
+                        font-family: $avenir;
+                        font-weight: 700;
+                        font-size: 51.63px;
+                        color: $color7;
+                    }
+                }
+
+                .camera {
+                    position: absolute;
+                    background-color: $color13;
+                    right: 0;
+                    bottom: 0;
+                    border-radius: 50%;
+                    padding: 5px;
+                    cursor: pointer;
+                }
+            }
+
         }
 
         .address_btn {

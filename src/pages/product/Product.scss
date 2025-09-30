@@ -36,7 +36,41 @@
                     font-size: 18px;
                     color: $black;
                     padding: 15px 22px;
+                }
 
+                .menu_btn {
+                    width: max-content;
+                    max-width: 100%;
+                    height: 100%;
+                    background-color: $input-bg;
+                    font-family: $avenir;
+                    border: 1px solid $color15;
+                    border-radius: 6px;
+                    font-weight: 400;
+                    font-size: 18px;
+                    color: $black;
+                    padding: 15px 22px;
+                }
+
+                .dropdown-menu {
+                    // inset: 3px 0 auto auto !important;
+                    border: 0;
+
+                    background-color: $color6;
+                    padding-block: 15px;
+
+                    .dropdown-item {
+                        font-family: $avenir;
+                        font-weight: 600;
+                        font-size: 18px;
+                        color: $black;
+                        padding-inline: 18px;
+
+                        &:active,
+                        &.active {
+                            background-color: transparent !important;
+                        }
+                    }
                 }
             }
 
@@ -44,7 +78,7 @@
                 width: fit-content;
                 display: flex;
                 align-items: center;
-                border: $border;
+                border: 1px solid $color15;
                 border-radius: 6px;
                 overflow: hidden;
                 width: 100%;
@@ -79,6 +113,30 @@
                     height: 100%;
                 }
             }
+
+            .view_grid {
+                display: flex;
+                align-items: center;
+
+                span {
+                    font-family: $avenir;
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: $black;
+                }
+
+                .grid_btns {
+                    display: flex;
+                    gap: 10px;
+                    padding-left: 20px;
+
+                    .grid_btn {
+                        background: none;
+                        border: 0;
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 
@@ -107,6 +165,11 @@
                 font-weight: 400;
                 font-size: 18px;
                 color: $black;
+
+                &:disabled {
+                    opacity: 0.7;
+                    cursor: not-allowed;
+                }
             }
 
             .pricing {
@@ -145,11 +208,24 @@
                                 &:first-child {
                                     border-bottom: 1px solid $color-5;
                                 }
+
+                                &:disabled {
+                                    opacity: 0.7;
+                                    cursor: not-allowed;
+                                }
                             }
                         }
                     }
                 }
 
+                .pricing_btn {
+                    width: fit-content;
+                    height: fit-content;
+                    border: 1px solid $color-5; // color-5 border-color
+                    font-size: 15px;
+                    padding: 8px 12px;
+                    margin-top: 10px;
+                }
             }
 
 
@@ -176,6 +252,7 @@
                         .form-check-input {
                             background-color: $input-bg;
                             border: 1px solid $color9;
+                            border-radius: .25em;
                             width: 22px;
                             height: 22px;
                             margin-top: 0;
@@ -202,16 +279,63 @@
                     }
                 }
             }
+
+            .accordion {
+                --bs-accordion-bg: $bg-color;
+
+                .accordion-item {
+                    border: none;
+
+                    .accordion-header {
+                        .accordion-button {
+                            padding: 0;
+                            box-shadow: none;
+
+                            &:after {
+                                background-image: none;
+                                width: 0;
+                                height: 0;
+                            }
+                        }
+                    }
+
+                    .accordion-body {
+                        padding: 0;
+                    }
+                }
+            }
         }
 
         .product_area {
             .product_box {
                 .image {
+                    position: relative;
                     overflow: hidden;
                     border-radius: 16px;
 
+                    width: 100%;
+                    height: 350px;
+
+                    .ribbon {
+                        position: absolute;
+                        top: 30px;
+                        left: -51px;
+                        padding: 5px 60px;
+                        background-color: $main-btn-color;
+                        color: $color7;
+                        font-family: $times;
+                        font-weight: 400;
+                        font-size: 16px;
+                        text-align: center;
+                        white-space: nowrap;
+                        transform: rotate(-45deg);
+                        z-index: 2;
+                    }
+
                     img {
                         width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                         transition: transform 0.5s ease;
                     }
 
@@ -250,6 +374,95 @@
                 }
             }
         }
+
+        .product_list_area {
+            border: 1px solid $color4;
+            border-radius: 16px;
+            padding: 40px;
+
+            .product_box {
+                .image {
+                    position: relative;
+
+                    border-radius: 16px;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 180px;
+                    max-width: 180px;
+                    max-height: 180px;
+
+                    .ribbon {
+                        position: absolute;
+                        top: 21px;
+                        left: -60px;
+                        padding: 5px 60px;
+                        background-color: $main-btn-color;
+                        color: $color7;
+                        font-family: $times;
+                        font-weight: 400;
+                        font-size: 16px;
+                        text-align: center;
+                        white-space: nowrap;
+                        transform: rotate(-45deg);
+                        z-index: 2;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.5s ease;
+                    }
+
+                    &:hover {
+                        img {
+                            transform: scale(1.1);
+                        }
+                    }
+                }
+
+                .detail {
+                    padding-left: 20px;
+
+                    .name,
+                    .price {
+                        font-family: $times;
+                        font-weight: 700;
+                        color: $black;
+                    }
+
+                    .name {
+                        font-size: 22px;
+                        cursor: pointer;
+                    }
+
+                    .price {
+                        font-size: 32px;
+                        margin-block: 5px 10px;
+                    }
+
+                    .like {
+                        button {
+                            background: none;
+                            border: none;
+                        }
+                    }
+
+                    p {
+                        font-family: $avenir;
+                        font-weight: 600;
+                        color: $color5;
+                        font-size: 16px;
+                        line-height: 26px;
+                    }
+                }
+            }
+
+            .line {
+                border: 1px solid $color4;
+                margin-block: 40px;
+            }
+        }
     }
 }
 
@@ -258,10 +471,14 @@
 
 
 
-[data-theme="dark"] {   
-    .form-check-input {
-        &:checked {
-            --bs-form-check-bg-image: url("../../assets/images/product/checked-dark.svg") !important;
+[data-theme="dark"] {
+    ul {
+        li {
+            .form-check-input {
+                &:checked {
+                    --bs-form-check-bg-image: url("../../assets/images/product/checked-dark.svg") !important;
+                }
+            }
         }
     }
 }

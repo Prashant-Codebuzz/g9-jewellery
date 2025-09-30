@@ -34,6 +34,7 @@ const OtpVerification = () => {
 
     const [otp, setOtp] = useState(initialOtpState);
     const [resend, setResend] = useState(initialResendState);
+    const [otpError, setOtpError] = useState("");
 
 
     const handleChange = (e, index) => {
@@ -52,6 +53,8 @@ const OtpVerification = () => {
             newOtp[index] = "";
             setOtp(newOtp);
         }
+
+        setOtpError("");
     }
 
     const handleBackspace = (e, index) => {
@@ -76,6 +79,16 @@ const OtpVerification = () => {
         }
     };
 
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData("text").trim();
+
+        if (/^\d{6}$/.test(pasteData)) {
+            setOtp(pasteData?.split(""));
+            const lastInput = document.getElementById(`otp-input-5`);
+            if (lastInput) lastInput.focus();
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -92,15 +105,16 @@ const OtpVerification = () => {
                 payload = { ...payload, Mobile_number: phone };
             }
 
-            // const res = await dispatch(reqtoOtpVerification(payload));
-            // console.log("reqtoOtpVerification--> Res", res);
+            const res = await dispatch(reqtoOtpVerification(payload));
+            console.log("reqtoOtpVerification--> Res", res);
 
-            // if (res.payload?.status) {
-            navigate(pageType === "forgot-password" ? "/create-password" : "/address-details");
-            // }
+            if (res.payload?.status) {
+                // navigate(pageType === "forgot-password" ? "/create-password" : "/address-details");
+                navigate(pageType === "forgot-password" ? "/create-password" : "/home");
+            }
         }
         else {
-            toast.error("Please enter all 6 digits");
+            setOtpError("Please enter all 6 digits");
         }
     }
 
@@ -229,10 +243,13 @@ const OtpVerification = () => {
                                                 onKeyDown={(e) => handleBackspace(e, index)}
                                                 // onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')}
                                                 autoFocus={index === 0}
+                                                onPaste={(e) => handlePaste(e)}
                                             />
                                         ))}
 
                                     </div>
+
+                                    {otpError && <div className='mt-2 error_message'>{otpError}</div>}
                                 </div>
 
                                 <div className='mb-4 resend text-end'>

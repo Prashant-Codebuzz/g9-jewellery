@@ -1,7 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { reqtoGetPolicy } from '../../redux-Toolkit/services/PolicyServices';
+
+import DOMPurify from 'dompurify';
 
 const ReturnRefundPolicy = () => {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const home = useSelector((state) => state.Policy);
+    const { loader, policyList } = home;
+
+    console.log(policyList);
+
+    const GetPolicy = async () => {
+        await dispatch(reqtoGetPolicy());
+    }
+
+    useEffect(() => {
+        GetPolicy();
+    }, []);
+
+    const policy = policyList?.find((i) => i.name === "Refund & Return Policy");
+
     return (
         <>
 
@@ -9,7 +33,7 @@ const ReturnRefundPolicy = () => {
             <div className="policy pd-x">
                 <h4>Return & Refund Policy</h4>
 
-                <p className='black mb-40'>
+                {/* <p className='black mb-40'>
                     At G9 Jewellery, customer satisfaction is our top priority. We take utmost care in crafting and delivering every piece of jewellery and diamonds. However, if you are not completely satisfied with your purchase, our Return & Refund Policy will guide you.
                 </p>
 
@@ -49,8 +73,13 @@ const ReturnRefundPolicy = () => {
 
                 <p className='black mb-10'>6. Contact Us</p>
                 <p>For return or refund assistance, please contact our support team:</p>
-                <p className='mb-10'>Email: <Link to="mailto:support@g9jewellery.com">support@g9jewellery.com</Link></p>
-                <p className='mb-0'>Phone: <Link to="tel:+1234657890">+123 465 7890</Link></p>
+                <p className='mb-10'>Email: <Link to="mailto:g9jewellerys@gmail.com">g9jewellerys@gmail.com</Link></p>
+                <p className='mb-0'>Phone: <Link to="tel:+917285858542">+91 7285 858 542</Link></p> */}
+
+                <div
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(policy?.description) }}
+                />
+
             </div>
             {/* ------ Return-Refund-Policy End ------ */}
 

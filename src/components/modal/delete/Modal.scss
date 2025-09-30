@@ -47,7 +47,7 @@
             top: 18px;
             right: 18px;
 
-            &:focus{
+            &:focus {
                 box-shadow: none;
             }
         }
@@ -88,5 +88,49 @@
             //     margin-block: 18px;
             // }
         }
+
+        // ------ Share ------
+
+        form {
+            &.share {
+                .address {
+                    padding: 0;
+                    border: 0;
+                    margin-bottom: 20px;
+
+                    p {
+                        &.link {
+                            word-break: break-word;
+                            white-space: pre-wrap;
+                            flex: 1;
+                            font-size: 17px;
+                        }
+                    }
+
+                    button {
+                        background-color: transparent;
+                        border: 0;
+                    }
+                }
+
+                .social {
+                    display: flex;
+                    gap: 23px;
+
+                    button {
+                        background-color: transparent;
+                        border: 0;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+[data-theme="dark"] {
+    .btn-close {
+        --bs-btn-close-bg: url("../../../assets/images/modal/modal-close-dark.svg");
     }
 }

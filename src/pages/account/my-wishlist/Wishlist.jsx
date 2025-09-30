@@ -11,12 +11,19 @@ import RatingStar from "../../../assets/images/account/rating-star.svg";
 import Like from "../../../assets/images/account/like.svg";
 import UnLikeLight from "../../../assets/images/account/unlike-light.svg";
 
+// Dark
+import UnLikeDark from "../../../assets/images/account/unlike-dark.svg";
+
 import AccountSidebar from '../../../components/account-sidebar/AccountSidebar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { reqtoDeleteWishlist, reqtoGetWishlist } from '../../../redux-Toolkit/services/AccountServices';
+import useCurrency from '../../../hooks/useCurrency';
+import { currencyData } from '../../../constants/data';
 
 const Wishlist = () => {
+
+    const currency = useCurrency();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -24,21 +31,21 @@ const Wishlist = () => {
     const userAccount = useSelector((state) => state.UserAccount);
     const { loader, wishList } = userAccount;
 
-    const GetWishlist = async () => {
-        await dispatch(reqtoGetWishlist());
+    const GetWishlist = async (currency) => {
+        await dispatch(reqtoGetWishlist(currency));
     }
 
-    const handleDelete = async (id) => {
+    const handleDeleteWishlist = async (id) => {
         const res = await dispatch(reqtoDeleteWishlist(id));
 
         if (res.payload?.status) {
-            GetWishlist();
+            GetWishlist(currency);
         }
     }
 
     useEffect(() => {
-        GetWishlist();
-    }, []);
+        GetWishlist(currency);
+    }, [currency]);
 
 
     return (
@@ -61,113 +68,20 @@ const Wishlist = () => {
                             <h4 className='wishlist'>My Wishlist</h4>
 
                             <div className="row g-5">
-                                <div className="col-lg-4">
-                                    <div className="wishlist_box">
-                                        <div className="image">
-                                            <img src={MyWishlist1} alt="" className='img-fluid' draggable={false} />
-                                        </div>
-                                        <div className="wishlist_detail">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="rating d-flex gap-1">
-                                                    {
-                                                        Array.from({ length: 5 }).map((_, index) => (
-                                                            <img src={RatingStar} alt="" className='img-fluid' draggable={false} key={index} />
-                                                        ))
-                                                    }
-                                                </div>
 
-                                                <div className='like'>
-                                                    <button type='button' className=''>
-                                                        <img src={Like} alt="" className='img-fluid' draggable={false} />
-                                                    </button>
-                                                </div>
-                                            </div>
+                                {
+                                    wishList?.length > 0 ? (
+                                        wishList?.map((i, index) => {
+                                            return (
+                                                <div className="col-lg-4" key={i?.id}>
+                                                    <div className="wishlist_box">
+                                                        <div className="image">
+                                                            <span className='ribbon'>G9 Jewellery</span>
 
-                                            <div className="name">Gold Diamond Bracelets</div>
-
-                                            <p className='mb-0'>
-                                                Timeless elegance to your wrist with our stunning collection of Gold Diamond Bracelets.
-                                            </p>
-
-                                            <div className="price">$160.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="wishlist_box">
-                                        <div className="image">
-                                            <img src={MyWishlist2} alt="" className='img-fluid' draggable={false} />
-                                        </div>
-                                        <div className="wishlist_detail">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="rating d-flex gap-1">
-                                                    {
-                                                        Array.from({ length: 5 }).map((_, index) => (
-                                                            <img src={RatingStar} alt="" className='img-fluid' draggable={false} key={index} />
-                                                        ))
-                                                    }
-                                                </div>
-
-                                                <div className='like'>
-                                                    <button type='button' className=''>
-                                                        <img src={Like} alt="" className='img-fluid' draggable={false} />
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="name">Silver Diamond Neckless</div>
-
-                                            <p className='mb-0'>
-                                                Elegance with our exquisite Silver Diamond Necklace - where timeless charm meets modern sophistication.
-                                            </p>
-
-                                            <div className="price">$130.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="wishlist_box">
-                                        <div className="image">
-                                            <img src={MyWishlist3} alt="" className='img-fluid' draggable={false} />
-                                        </div>
-                                        <div className="wishlist_detail">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="rating d-flex gap-1">
-                                                    {
-                                                        Array.from({ length: 5 }).map((_, index) => (
-                                                            <img src={RatingStar} alt="" className='img-fluid' draggable={false} key={index} />
-                                                        ))
-                                                    }
-                                                </div>
-
-                                                <div className='like'>
-                                                    <button type='button' className=''>
-                                                        <img src={Like} alt="" className='img-fluid' draggable={false} />
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="name">Silver Diamond Earring</div>
-
-                                            <p className='mb-0'>
-                                                Brilliance to your style with our Silver Diamond Earrings – where classic elegance meets modern shine.
-                                            </p>
-
-                                            <div className="price">$140.00</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* {
-                                    wishList?.map((i, index) => {
-                                        return (
-                                            <div className="col-lg-4" key={i?.product_id}>
-                                                <div className="wishlist_box">
-                                                    <div className="image">
-                                                        <img src={i?.images[0]} alt="" className='img-fluid' draggable={false} />
-                                                    </div>
-                                                    <div className="wishlist_detail">
-                                                        <div className="d-flex justify-content-between align-items-center">
+                                                            <img src={i?.images[0]} alt="" className='img-fluid' draggable={false} />
+                                                        </div>
+                                                        <div className="wishlist_detail">
+                                                            {/* <div className="d-flex justify-content-between align-items-center">
                                                             <div className="rating d-flex gap-1">
                                                                 {
                                                                     Array.from({ length: 5 }).map((_, index) => (
@@ -181,22 +95,37 @@ const Wishlist = () => {
                                                                     <img src={Like} alt="" className='img-fluid' draggable={false} />
                                                                     <img src={wishList.some(w => w.product_id === i.product_id) ? Like : UnLikeLight} alt="" className='img-fluid' draggable={false} />
                                                                 </button>
-                                                            </div>  
-                                                        </div>
+                                                            </div>
+                                                        </div> */}
 
-                                                        <div className="name">{i?.title}</div>
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                <div className="name">{i?.title}</div>
+                                                                <div className='like'>
+                                                                    <button type='button' className='' onClick={() => handleDeleteWishlist(i?.id)}>
+                                                                        <img src={Like} alt="" className='img-fluid' draggable={false} />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
 
-                                                        <p className='mb-0'>
+                                                            {/* <p className='mb-0'>
                                                             {i?.description}
-                                                        </p>
+                                                        </p> */}
 
-                                                        <div className="price">${i?.original_price}</div>
+                                                            <div className="price">
+                                                                {currency ? currencyData?.find((i) => i?.value === currency)?.symbol : '₹'}
+                                                                {i?.selling_price}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                                } */}
+                                            )
+                                        })
+                                    ) : (
+                                        <div className='wishlist_box nodata text-center'>
+                                            <div className="wishlist_detail mt-0"><span className='price'>Your Wishlist is empty</span></div>
+                                        </div>
+                                    )
+                                }
+
                             </div>
                         </div>
                     </div>

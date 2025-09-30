@@ -182,7 +182,18 @@
                 }
             }
 
-            .auth_btn{
+            .password_hide_show {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                border: 0;
+                background-color: transparent;
+                z-index: 99;
+                cursor: pointer;
+            }
+
+            .auth_btn {
                 color: $color7;
             }
 
@@ -222,8 +233,22 @@
 
                 font-weight: 400;
                 color: $black;
+                margin-top: 25px;
             }
 
+            .get_otp_btn {
+                font-family: $avenir;
+                background-color: $form-bg;
+                border: $border;
+
+                font-weight: 400;
+                color: $black;
+                // font-size: 20px;
+
+                &.mobile {
+                    margin-top: 25px;
+                }
+            }
         }
     }
 

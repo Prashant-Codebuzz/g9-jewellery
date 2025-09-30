@@ -23,7 +23,7 @@ const Primary = ({ show, handleClose, handleSetPrimary, loader }) => {
                         NO
                     </button>
 
-                    <button type='button' className='main_btn yes' onClick={handleClose} disabled={loader}>
+                    <button type='button' className='main_btn yes' onClick={handleSetPrimary} disabled={loader}>
                         {
                             loader ? loaders.btn : 'YES'
                         }

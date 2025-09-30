@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Css
 import "./CreateAddress.scss"
@@ -22,6 +22,9 @@ const CreateAddress = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const checkout = location?.state || '';
+
     const userAccount = useSelector((state) => state.UserAccount);
     const { manageAddressLoader } = userAccount;
 
@@ -39,11 +42,15 @@ const CreateAddress = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const res = await dispatch(reqtoAddManageAddress(formData));
+        const res = await dispatch(reqtoAddManageAddress(formData));
 
-        // if (res.payload?.status) {
-            navigate("/address");
-        // }
+        if (res.payload?.status) {
+            if (checkout === 'checkout') {
+                navigate("/cart/checkout");
+            } else {
+                navigate("/address");
+            }
+        }
     }
 
     return (
@@ -65,7 +72,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.address_line_1}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -79,7 +86,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.address_line_2}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -93,7 +100,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.city}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -107,7 +114,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.state}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -121,7 +128,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.country}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -135,7 +142,7 @@ const CreateAddress = () => {
                                     className='form-control'
                                     value={formData?.postal_code}
                                     onChange={handleChange}
-                                    // required
+                                    required
                                 />
                             </div>
                         </div>
@@ -151,7 +158,7 @@ const CreateAddress = () => {
                                         value={"Home"}
                                         checked={formData?.address_type === "Home"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="home">
                                         Home
@@ -166,7 +173,7 @@ const CreateAddress = () => {
                                         value={"Work"}
                                         checked={formData?.address_type === "Work"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="work">
                                         Work
@@ -181,7 +188,7 @@ const CreateAddress = () => {
                                         value={"Other"}
                                         checked={formData?.address_type === "Other"}
                                         onChange={handleChange}
-                                        // required
+                                        required
                                     />
                                     <label className="form-check-label" htmlFor="other">
                                         Other
